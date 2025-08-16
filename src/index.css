@@ -1,0 +1,113 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  font-family: 'Inter', 'Open Sans', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom cursor styles */
+.custom-cursor {
+  width: 20px;
+  height: 20px;
+  background-color: #eb8228;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.1s ease;
+  mix-blend-mode: difference;
+}
+
+.custom-cursor.hover {
+  transform: scale(1.5);
+  background-color: #f5f0ea;
+}
+
+/* Typography styles */
+.heading-primary {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #FFFFFF;
+}
+
+.heading-secondary {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: #f5f0ea;
+}
+
+.body-text {
+  font-family: 'Inter', 'Open Sans', sans-serif;
+  font-weight: 400;
+  color: #f5f0ea;
+}
+
+/* Brand color utilities */
+.bg-primary {
+  background-color: #eb8228;
+}
+
+.bg-secondary {
+  background-color: #f5f0ea;
+}
+
+.text-primary {
+  color: #eb8228;
+}
+
+.text-secondary {
+  color: #f5f0ea;
+}
+
+.text-accent {
+  color: #FFFFFF;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #f5f0ea;
+    background-color: #1a1a1a;
+  }
+}
+
+/* Base styles */
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: 'Inter', 'Open Sans', sans-serif;
+  background-color: #f9f9f9;
+  color: #ff5500;
+}
+
+/* Button styles */
+.btn-primary {
+  background-color: #eb8228;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 9999px;
+  padding: 12px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #d6731f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(235, 130, 40, 0.3);
+}
+
+/* Focus styles for accessibility */
+*:focus {
+  outline: 2px solid #eb8228;
+  outline-offset: 2px;
+}
