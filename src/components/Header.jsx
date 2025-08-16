@@ -41,7 +41,7 @@ export default function Header() {
           {/* Logo */}
           <NavLink to="/" className="flex items-center">
             <img 
-              src="/src/Images/logo.jpg" 
+              src="./src/Images/logo.jpg" 
               alt="Logo" 
               className="h-10 w-auto object-contain rounded-md"
             />
@@ -108,3 +108,4 @@ export default function Header() {
     </>
   );
 }
+
