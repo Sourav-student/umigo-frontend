@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+// import { useAuth } from '../../context/AuthContext';
 import CreatePostModal from '../common/CreatePostModal';
 import GlowModeModal from '../common/GlowModeModal';
 import logo from '../../assets/images/logo.jpg';
@@ -25,7 +25,7 @@ export default function Header() {
   const [glowEnabled, setGlowEnabled] = useState(false);
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
   const [isGlowModeModalOpen, setIsGlowModeModalOpen] = useState(false);
-  const { isAuthenticated, user, logout } = useAuth();
+  // const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -40,15 +40,15 @@ export default function Header() {
     window.dispatchEvent(new CustomEvent('glowModeChange', { detail: glowEnabled }));
   }, [glowEnabled]);
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate('/');
-    } catch (error) {
-      console.error('Logout error:', error);
-      navigate('/');
-    }
-  };
+  // const handleLogout = async () => {
+  //   try {
+  //     await logout();
+  //     navigate('/');
+  //   } catch (error) {
+  //     console.error('Logout error:', error);
+  //     navigate('/');
+  //   }
+  // };
 
   const handleNavItemClick = (item) => {
     if (item.action === 'create-post') {
@@ -117,7 +117,7 @@ export default function Header() {
           {/* Right icons + auth + glow toggle */}
           <div className="flex items-center gap-4">
             {/* Authentication status */}
-            {isAuthenticated ? (
+            {/* {isAuthenticated ? (
               <div className="flex items-center gap-3">
                 <span className="text-sm text-[#ff5500]">Welcome, {user?.name || 'User'}</span>
                 <button
@@ -134,7 +134,7 @@ export default function Header() {
               >
                 Login
               </NavLink>
-            )}
+            )} */}
 
             {/* Glow switch */}
             <div

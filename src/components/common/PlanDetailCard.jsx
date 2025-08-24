@@ -55,13 +55,13 @@ function PlanDetailCard({ plan, onClose, onApproach, onChat }) {
         {/* Main Content */}
         <div className="px-6 pt-14 pb-6">
           {/* Name */}
-          <h3 className="text-2xl font-bold text-gray-900 mb-6">{plan.name || 'Selmon Bhai'}</h3>
+          <h3 className="text-2xl font-bold text-gray-900 mb-6 flex justify-start items-center"><BsFilm className="w-5 h-5 mr-3 text-gray-500" />Oppenheimer Rewatch</h3>
           
           {/* Event Details */}
           <div className="space-y-4 mb-8">
             <div className="flex items-center text-gray-700">
-              <BsFilm className="w-5 h-5 mr-3 text-gray-500" />
-              <span>Oppenheimer Rewatch</span>
+              
+              <span>{plan.name || 'Selmon Bhai'}</span>
             </div>
             <div className="flex items-center text-gray-700">
               <BsClock className="w-5 h-5 mr-3 text-gray-500" />
