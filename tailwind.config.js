@@ -13,9 +13,9 @@ export default {
         accent: '#FFFFFF',      // White
       },
       fontFamily: {
-        'montserrat': ['Montserrat', 'sans-serif'],
-        'inter': ['Inter', 'sans-serif'],
-        'opensans': ['Open Sans', 'sans-serif'],
+        'sans': ['Roboto', 'sans-serif'],
+        'heading': ['Poppins', 'sans-serif'],
+        'body': ['Roboto', 'sans-serif'],
       },
       fontSize: {
         '4xl': ['2.25rem', { lineHeight: '2.5rem' }],

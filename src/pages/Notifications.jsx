@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FiX, FiCheck, FiClock, FiBell } from 'react-icons/fi';
 
 // Helper function to format date
 const formatDate = (date) => {
@@ -21,6 +22,15 @@ const formatDate = (date) => {
     year: 'numeric',
     month: 'short',
     day: 'numeric'
+  });
+};
+
+// Format time to 12-hour format
+const formatTime = (date) => {
+  return new Date(date).toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
   });
 };
 
@@ -94,6 +104,65 @@ const sampleNotifications = [
   }
 ];
 
+const NotificationItem = ({ notification, onDelete }) => {
+  const [isRead, setIsRead] = useState(false);
+  
+  return (
+    <div 
+      className={`relative p-4 rounded-xl mb-3 transition-all duration-200 ${
+        isRead ? 'bg-white/50' : 'bg-white shadow-md'
+      }`}
+    >
+      <div className="flex items-start justify-between">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-orange-400 to-amber-500 flex items-center justify-center text-white font-bold">
+              {notification.name.charAt(0)}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-1">
+                <span className="font-semibold text-gray-900 truncate">{notification.name}</span>
+                <span className="text-gray-500">•</span>
+                <span className="text-xs text-gray-500 flex items-center">
+                  <FiClock className="mr-1" size={12} />
+                  {formatTime(notification.timestamp)}
+                </span>
+              </div>
+              <p className="text-gray-600 text-sm mt-1">{notification.text}</p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-2">
+          {!isRead && (
+            <button 
+              onClick={() => setIsRead(true)}
+              className="p-1 text-gray-400 hover:text-green-500 transition-colors"
+              aria-label="Mark as read"
+            >
+              <FiCheck size={18} />
+            </button>
+          )}
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(notification.id);
+            }}
+            className="p-1 text-gray-400 hover:text-red-500 transition-colors"
+            aria-label="Delete notification"
+          >
+            <FiX size={18} />
+          </button>
+        </div>
+      </div>
+      
+      {!isRead && (
+        <div className="absolute top-4 right-4 w-2 h-2 bg-orange-500 rounded-full"></div>
+      )}
+    </div>
+  );
+};
+
 export default function Notifications() {
   const [notifications, setNotifications] = useState([]);
   
@@ -111,7 +180,7 @@ export default function Notifications() {
   const sortedGroups = Object.entries(groupedNotifications)
     .sort(([dateA], [dateB]) => new Date(dateB) - new Date(dateA));
   
-  // Initialize with sample data (in a real app, this would come from an API)
+  // Initialize with sample data
   useEffect(() => {
     setNotifications(sampleNotifications);
   }, []);
@@ -125,67 +194,49 @@ export default function Notifications() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-extrabold text-[#ff5500]">Notifications</h1>
-        {notifications.length > 0 && (
-          <button 
-            onClick={clearAllNotifications}
-            className="text-sm text-[#ff5500] hover:underline"
-          >
-            Clear All
-          </button>
-        )}
+    <div className="max-w-md mx-auto bg-gray-50 min-h-screen">
+      <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-sm p-4 border-b border-gray-100">
+        <div className="flex justify-between items-center">
+          <h1 className="text-xl font-bold text-gray-900">Notifications</h1>
+          {notifications.length > 0 && (
+            <button 
+              onClick={clearAllNotifications}
+              className="text-sm text-orange-500 hover:text-orange-600 font-medium"
+            >
+              Clear all
+            </button>
+          )}
+        </div>
       </div>
       
       {notifications.length === 0 ? (
-        <div className="text-center py-10 text-gray-500">
-          No notifications yet
+        <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
+          <div className="w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center mb-4">
+            <FiBell className="text-orange-500" size={28} />
+          </div>
+          <h3 className="text-lg font-medium text-gray-900 mb-1">No notifications</h3>
+          <p className="text-gray-500 text-sm">You're all caught up!</p>
         </div>
       ) : (
-        <div className="space-y-6">
+        <div className="p-4">
           {sortedGroups.map(([date, dateNotifications]) => (
-            <section key={date} className="space-y-3">
-              <div className="text-left font-semibold text-[#ff5500] pl-2">
+            <section key={date} className="mb-6">
+              <div className="text-sm font-medium text-gray-500 mb-3 px-1">
                 {formatDate(date)}
               </div>
-              {dateNotifications.map((notification) => (
-                <div 
-                  key={notification.id}
-                  className="relative text-sm bg-white rounded-xl border border-[#ff5500]/20 p-4 hover:bg-orange-50 transition-colors"
-                >
-                  <div className="flex justify-between items-start">
-                    <div className="font-semibold text-[#ff5500] pr-6">
-                      {notification.name}
-                    </div>
-                    <div className="flex items-center">
-                      <span className="text-xs text-gray-500 mr-2">
-                        {new Date(notification.timestamp).toLocaleTimeString([], { 
-                          hour: '2-digit', 
-                          minute: '2-digit' 
-                        })}
-                      </span>
-                      <button 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          deleteNotification(notification.id);
-                        }}
-                        className="text-gray-400 hover:text-[#ff5500] transition-colors"
-                        aria-label="Delete notification"
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  </div>
-                  <div className="text-gray-700 mt-1">
-                    {notification.text}
-                  </div>
-                </div>
-              ))}
+              <div className="space-y-2">
+                {dateNotifications.map((notification) => (
+                  <NotificationItem 
+                    key={notification.id} 
+                    notification={notification} 
+                    onDelete={deleteNotification}
+                  />
+                ))}
+              </div>
             </section>
           ))}
         </div>
       )}
     </div>
-  );
+  )
 }

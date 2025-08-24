@@ -24,14 +24,14 @@ export default function GlowMode() {
           </div>
         </div>
 
-        <div>
+        {/* <div>
           <div className="text-sm font-semibold text-[#ff5500] mb-2">Discoverability</div>
           <div className="grid grid-cols-2 gap-2">
             {['Public','Friends'].map(opt => (
               <button key={opt} onClick={()=>setDiscover(opt)} className={['h-10 rounded-xl border', discover===opt ? 'bg-[#ff5500] text-white border-[#ff5500]' : 'bg-white border-[#ff5500]/40'].join(' ')}>{opt}</button>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
 
       <button className="mt-6 w-full h-12 rounded-xl bg-[#ff5500] text-white font-semibold">Save</button>

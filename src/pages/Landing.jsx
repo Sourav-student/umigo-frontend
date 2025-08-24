@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import SearchBar from './components/SearchBar';
-import TabSwitcher from './components/TabSwitcher';
-import SpotlightCard from './components/SpotlightCard';
-import PlanCard from './components/PlanCard';
-import PlanDetailCard from './components/PlanDetailCard';
-import SpotlightDetailCard from './components/SpotlightDetailCard';
-import Pagination from './components/Pagination';
+import SearchBar from '../components/common/SearchBar';
+import TabSwitcher from '../components/common/TabSwitcher';
+import SpotlightCard from '../components/common/SpotlightCard';
+import PlanCard from '../components/common/PlanCard';
+import PlanDetailCard from '../components/common/PlanDetailCard';
+import SpotlightDetailCard from '../components/common/SpotlightDetailCard';
+import Pagination from '../components/common/Pagination';
 import { toast } from 'react-toastify';
-import Footer from '../components/Footer';
+import Footer from '../components/layout/Footer';
 
 const sampleUsers = [
   { name: 'Mia', time: '4:00 PM', location: 'Central Park', avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop', note: 'Open to anything!' },
@@ -68,7 +68,7 @@ const samplePlans = [
     time: '6:30 PM Today',
     location: 'WeWork Galaxy',
     bannerImage: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=1200&auto=format&fit=crop',
-    avatarUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop'
+    avatarUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop'
   },
   {
     name: 'Ananya Reddy',
@@ -137,7 +137,7 @@ const samplePlans = [
     name: 'Rohan Seth',
     subtitle: 'Basketball Match',
     time: '6:00 PM Tomorrow',
-    location: 'St. Xavier’s College Court',
+    location: 'St. Xavier\'s College Court',
     bannerImage: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=1200&auto=format&fit=crop',
     avatarUrl: 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=200&auto=format&fit=crop'
   },
@@ -157,8 +157,9 @@ function Landing() {
   const [glowEnabled, setGlowEnabled] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [page, setPage] = useState(1);
-  const pageSize =12;
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9; // Number of items to show per page
 
   useEffect(() => {
     const saved = localStorage.getItem('glowMode');
@@ -170,8 +171,16 @@ function Landing() {
   }, [glowEnabled]);
 
   useEffect(() => {
-    setPage(1);
-  }, [activeTab, query]);
+    // Start transition when tab changes
+    setIsTransitioning(true);
+    
+    // End transition after animation completes
+    const timer = setTimeout(() => {
+      setIsTransitioning(false);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [activeTab]);
 
   // Filter spotlight users by name
   const filteredSpotlight = sampleUsers.filter(u => u.name.toLowerCase().includes(query.toLowerCase()));
@@ -181,102 +190,199 @@ function Landing() {
     ? samplePlans 
     : samplePlans.filter(p => p.name.toLowerCase().includes(query.toLowerCase()));
 
-  // Pagination calculations
-  const totalPlanPages = Math.ceil(filteredPlans.length / pageSize) || 1;
-  const totalSpotlightPages = Math.ceil(filteredSpotlight.length / pageSize) || 1;
-  const start = (page - 1) * pageSize;
-  const currentPlans = filteredPlans.slice(start, start + pageSize);
-  const currentUsers = filteredSpotlight.slice(start, start + pageSize);
+  // Calculate pagination
+  const totalItems = activeTab === 'Plans' ? filteredPlans.length : filteredSpotlight.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  
+  // Get current items
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  
+  const currentPlans = filteredPlans.slice(indexOfFirstItem, indexOfLastItem);
+  const currentSpotlight = filteredSpotlight.slice(indexOfFirstItem, indexOfLastItem);
+  
+  // Change page
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  
+  // Reset to first page when tab or search changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab, query]);
 
   return (
     <div className="min-h-screen bg-[#f9f9f9] text-[#ff5500] flex flex-col">
-      {/* Header */}
-      
+      {/* Main Content */}
+      <main className="flex-1 px-4 py-6 pb-20 md:pb-6">
+        <div className="max-w-7xl mx-auto space-y-6">
+          {/* Search Bar - Fixed width container */}
+          <div className="w-full">
+            <SearchBar value={query} onChange={setQuery} />
+          </div>
 
-      {/* Scrollable content */}
-      <main className="max-w-5xl mx-auto px-4 space-y-5 py-6 flex-1 overflow-y-auto">
-        <SearchBar value={query} onChange={setQuery} />
+          {/* Tab Switcher - Centered */}
+          <div className="flex justify-center">
+            <TabSwitcher active={activeTab} onChange={setActiveTab} />
+          </div>
 
-        <div className="flex gap-6">
-          <TabSwitcher active={activeTab} onChange={setActiveTab} />
-        </div>
-
-        <div className="flex flex-col w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-8 w-full">
-            {activeTab === 'Plans' ? (
-              currentPlans.map((p) => (
-                <div key={p.name} className="rounded-lg overflow-hidden">
-                  <PlanCard
-                    glow={glowEnabled}
-                    bannerImage={p.bannerImage}
-                    avatarUrl={p.avatarUrl}
-                    name={p.name}
-                    subtitle={p.subtitle}
-                    time={p.time}
-                    location={p.location}
-                    onJoin={() => setSelectedPlan(p)}
-                    className="shadow-none"
-                  />
-                </div>
-              ))
-            ) : (
-              currentUsers.map(user => (
-                <div key={user.name} className="rounded-lg overflow-hidden">
-                  <SpotlightCard
-                    glow={glowEnabled}
-                    avatarUrl={user.avatarUrl}
-                    name={user.name}
-                    time={user.time}
-                    location={user.location}
-                    onApproach={() => setSelectedUser(user)}
-                    className="shadow-none"
-                  />
-                </div>
-              ))
+          {/* Content Grid */}
+          <div className="w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+              {activeTab === 'Plans' ? (
+                currentPlans.map((p) => (
+                  <div 
+                    key={p.name} 
+                    className={`rounded-lg overflow-hidden transition-all duration-300 ease-out ${
+                      isTransitioning 
+                        ? 'opacity-0 translate-y-4 scale-95' 
+                        : 'opacity-100 translate-y-0 scale-100'
+                    }`}
+                  >
+                    <PlanCard
+                      glow={glowEnabled}
+                      bannerImage={p.bannerImage}
+                      avatarUrl={p.avatarUrl}
+                      name={p.name}
+                      subtitle={p.subtitle}
+                      time={p.time}
+                      location={p.location}
+                      onCardClick={() => setSelectedPlan(p)}
+                      className="shadow-none"
+                    />
+                  </div>
+                ))
+              ) : (
+                currentSpotlight.map((user) => (
+                  <div 
+                    key={user.name} 
+                    className={`rounded-lg overflow-hidden transition-all duration-300 ease-out ${
+                      isTransitioning 
+                        ? 'opacity-0 translate-y-4 scale-95' 
+                        : 'opacity-100 translate-y-0 scale-100'
+                    }`}
+                  >
+                    <SpotlightCard
+                      glow={glowEnabled}
+                      avatarUrl={user.avatarUrl}
+                      name={user.name}
+                      time={user.time}
+                      location={user.location}
+                      onCardClick={() => setSelectedUser(user)}
+                      onApproach={() => {
+                        // This will be handled by the SpotlightCard component
+                      }}
+                      className="shadow-none"
+                    />
+                  </div>
+                ))
+              )}
+            </div>
+            
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-8 flex justify-center items-center gap-2">
+                <button
+                  onClick={() => paginate(1)}
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 bg-[#ff5500] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  «
+                </button>
+                <button
+                  onClick={() => paginate(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 bg-[#ff5500] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  ‹
+                </button>
+                
+                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                  // Show pages around current page
+                  let pageNum;
+                  if (totalPages <= 5) {
+                    pageNum = i + 1;
+                  } else if (currentPage <= 3) {
+                    pageNum = i + 1;
+                  } else if (currentPage >= totalPages - 2) {
+                    pageNum = totalPages - 4 + i;
+                  } else {
+                    pageNum = currentPage - 2 + i;
+                  }
+                  
+                  return (
+                    <button
+                      key={pageNum}
+                      onClick={() => paginate(pageNum)}
+                      className={`w-10 h-10 rounded-lg ${
+                        currentPage === pageNum
+                          ? 'bg-[#ff5500] text-white'
+                          : 'bg-white text-[#ff5500] hover:bg-gray-100'
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })}
+                
+                <button
+                  onClick={() => paginate(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className="px-4 py-2 bg-[#ff5500] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  ›
+                </button>
+                <button
+                  onClick={() => paginate(totalPages)}
+                  disabled={currentPage === totalPages}
+                  className="px-4 py-2 bg-[#ff5500] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  »
+                </button>
+              </div>
             )}
           </div>
-          <div className="mt-6">
-            {activeTab === 'Plans' ? (
-              <Pagination current={page} total={totalPlanPages} onChange={setPage} />
-            ) : (
-              <Pagination current={page} total={totalSpotlightPages} onChange={setPage} />
-            )}
-          </div>
         </div>
-
       </main>
 
-      {/* Footer fixed to bottom of page flow (not fixed on screen) */}
-      <footer className="border-t border-[#ff5500]/10">
+      {/* Footer - Positioned at bottom */}
+      <footer className="mt-auto border-t border-[#ff5500]/10">
         <Footer />
       </footer>
 
-      {/* Detail Overlays */}
-      <PlanDetailCard
-        plan={selectedPlan}
-        onClose={() => setSelectedPlan(null)}
-        onJoin={() => {
-          toast.success('Request sent to join the plan');
-          setSelectedPlan(null);
-        }}
-        onChat={() => {
-          toast.info('Chat coming soon');
-          setSelectedPlan(null);
-        }}
-      />
-
-      <SpotlightDetailCard
-        user={selectedUser}
-        onClose={() => setSelectedUser(null)}
-        onApproach={() => {
-          toast.success('Approach request sent');
-          setSelectedUser(null);
-        }}
-        onChat={() => {
-          toast.info('Chat coming soon');
-          setSelectedUser(null);
-        }}
-      />
+      {/* Plan Detail Modal */}
+      {selectedPlan && (
+        <PlanDetailCard
+          plan={selectedPlan}
+          onClose={() => setSelectedPlan(null)}
+          onApproach={() => {
+            toast.success(`Approach request sent to ${selectedPlan?.name}!`);
+            setSelectedPlan(null);
+          }}
+          onChat={() => {
+            toast.info(`Chat with ${selectedPlan?.name} coming soon!`);
+            setSelectedPlan(null);
+          }}
+        />
+      )}
+      
+      {selectedUser && (
+        <SpotlightDetailCard
+          user={selectedUser}
+          onClose={() => setSelectedUser(null)}
+          onApproach={() => {
+            toast.success(`Approach message sent to ${selectedUser.name}!`, {
+              position: 'top-center',
+              autoClose: 3000,
+            });
+          }}
+          onChat={() => {
+            toast.info('Chat coming soon');
+            setSelectedUser(null);
+          }}
+        />
+      )}
     </div>
   );
 }
