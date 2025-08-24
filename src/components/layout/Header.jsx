@@ -3,7 +3,7 @@ import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import CreatePostModal from '../common/CreatePostModal';
 import GlowModeModal from '../common/GlowModeModal';
-
+import logo from '../../assets/images/logo.jpg';
 // icons 
 import { GoHome } from "react-icons/go";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
@@ -90,7 +90,7 @@ export default function Header() {
           {/* Logo */}
           <NavLink to="/" className="flex items-center">
             <img 
-              src="/src/assets/images/logo.jpg" 
+              src={logo} 
               alt="Logo" 
               className="h-10 w-auto object-contain rounded-md"
             />

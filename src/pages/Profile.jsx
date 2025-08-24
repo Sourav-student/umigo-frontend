@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import logo from '../assets/images/logo.jpg';
 
 const Profile = () => {
   const { user, logout } = useAuth();
@@ -12,7 +13,7 @@ const Profile = () => {
   const mockUser = {
     name: 'Rachel Fox',
     email: 'rachel@example.com',
-    avatar: '/src/assets/images/logo.jpg', // Using logo as placeholder
+    avatar: logo,
     status: 'Available Now',
     interests: ['Movies', 'Coffee', 'Gym', 'Walk'],
     plans: [
