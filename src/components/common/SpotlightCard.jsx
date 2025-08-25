@@ -39,9 +39,9 @@ function SpotlightCard({
         <img
           src={avatarUrl}
           alt={name}
-          className="h-16 w-16 rounded-full object-cover"
+          className="h-24 w-24 rounded-full object-cover"
         />
-        <div className="text-[#ff5500]">
+        <div className="text-[#1b1b1b]">
           <h3 className="text-lg font-semibold">{name}</h3>
           <p className="text-sm opacity-80">{time}</p>
           <p className="text-sm opacity-80">{location}</p>

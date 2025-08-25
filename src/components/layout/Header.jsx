@@ -163,12 +163,12 @@ export default function Header() {
       {/* Mobile bottom nav */}
       <nav className="md:hidden fixed bottom-2 left-0 right-0 z-40">
         <div className="mx-auto max-w-5xl px-4">
-          <div className="rounded-3xl bg-white border border-[#ff5500]/20 shadow-sm flex items-center justify-between px-2 py-1">
+          <div className="rounded-xl bg-white border border-[#ff5500]/20 shadow-sm flex items-center justify-between px-2 py-1">
             {navItems.map(item => (
               <button
                 key={item.label}
                 onClick={() => handleNavItemClick(item)}
-                className={`flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-[20%] transition-all duration-200 ${
+                className={`flex flex-col items-center text-black justify-center gap-1 px-4 py-2 text-lg rounded-[20%] transition-all duration-200 ${
                   isActiveRoute(item.to) 
                     ? 'bg-[#ff5500]/80 text-white shadow-md' 
                     : 'hover:bg-gray-50'

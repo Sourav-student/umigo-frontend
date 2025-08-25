@@ -104,7 +104,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
             </div>
 
             {/* Vibe */}
-            <div className="relative">
+            {/* <div className="relative">
               <button
                 type="button"
                 onClick={() => setShowVibeDropdown(!showVibeDropdown)}
@@ -134,10 +134,10 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                   ))}
                 </div>
               )}
-            </div>
+            </div> */}
 
             {/* Privacy */}
-            <div className="relative">
+            {/* <div className="relative">
               <button
                 type="button"
                 onClick={() => setShowPrivacyDropdown(!showPrivacyDropdown)}
@@ -167,10 +167,10 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                   ))}
                 </div>
               )}
-            </div>
+            </div> */}
 
             {/* Date */}
-            <div className="relative">
+            {/* <div className="relative">
               <button
                 type="button"
                 onClick={() => setShowDatePicker(!showDatePicker)}
@@ -197,7 +197,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                   />
                 </div>
               )}
-            </div>
+            </div> */}
 
             {/* Time */}
             <div className="relative">
@@ -232,7 +232,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
             {/* Post Button */}
             <button
               onClick={handleSubmit}
-              className="w-full bg-[#ff5500] text-white py-3 px-4 rounded-lg hover:bg-[#e64d00] transition-colors font-medium mt-6"
+              className="w-fit bg-[#ff5500] text-white py-3 px-4 rounded-lg hover:bg-[#e64d00] transition-colors font-medium mt-6"
             >
               Post
             </button>

@@ -89,7 +89,7 @@ const GlowModeModal = ({ isOpen, onClose, onSave }) => {
             </div>
 
             {/* Discoverability Section */}
-            <div>
+            {/* <div>
               <label className="block text-sm font-medium text-gray-900 mb-2">
                 Discoverability
               </label>
@@ -113,12 +113,12 @@ const GlowModeModal = ({ isOpen, onClose, onSave }) => {
                   </button>
                 ))}
               </div>
-            </div>
+            </div> */}
 
             {/* Save Button */}
             <button
               onClick={handleSave}
-              className="w-full bg-[#ff5500] text-white py-3 px-4 rounded-lg hover:bg-[#e64d00] transition-colors font-medium mt-6"
+              className="w-fit bg-[#ff5500] text-white py-3 px-4 rounded-lg hover:bg-[#e64d00] transition-colors font-medium mt-6"
             >
               Save
             </button>

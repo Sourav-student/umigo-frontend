@@ -82,10 +82,10 @@ const ChatWindow = ({ selectedChat, onBack, isMobile }) => {
         id: messages.length + 1,
         sender: 'me',
         text: message.trim(),
-        timestamp: new Date().toLocaleTimeString('en-US', { 
-          hour: 'numeric', 
+        timestamp: new Date().toLocaleTimeString('en-US', {
+          hour: 'numeric',
           minute: '2-digit',
-          hour12: true 
+          hour12: true
         }),
         avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face'
       };
@@ -129,14 +129,14 @@ const ChatWindow = ({ selectedChat, onBack, isMobile }) => {
             </svg>
           </button>
         )}
-        
+
         <img
           src={selectedChat.avatar}
           alt={selectedChat.name}
           className="w-12 h-12 rounded-full object-cover flex-shrink-0"
         />
-        
-        <div className="flex-1 min-w-0">
+
+        <div className="flex-1 min-w-0 text-justify">
           <h2 className="font-semibold text-gray-900 truncate text-lg">{selectedChat.name}</h2>
           {selectedChat.title && (
             <p className="text-sm text-gray-500 truncate mt-1">{selectedChat.title}</p>
@@ -165,32 +165,29 @@ const ChatWindow = ({ selectedChat, onBack, isMobile }) => {
             className={`flex ${msg.sender === 'me' ? 'justify-end' : 'justify-start'}`}
           >
             <div className={`flex gap-3 max-w-[280px] sm:max-w-[320px] md:max-w-[400px] lg:max-w-[450px] xl:max-w-[500px] ${msg.sender === 'me' ? 'flex-row-reverse' : ''}`}>
-              {msg.sender === 'other' && (
+              {/* {msg.sender === 'other' && (
                 <img
                   src={msg.avatar}
                   alt="Avatar"
                   className="w-10 h-10 rounded-full object-cover flex-shrink-0"
                 />
-              )}
-              
-              <div className={`relative px-4 py-3 rounded-2xl ${
-                msg.sender === 'me'
-                  ? 'bg-[#ff5500] text-white'
+              )} */}
+
+              <div className={`relative px-4 py-3 pb-1 rounded-2xl ${msg.sender === 'me'
+                  ? 'bg-[#ff9f5a] text-black'
                   : 'bg-white text-gray-900 border border-gray-200 shadow-sm'
-              }`}>
-                <p className="text-sm break-words leading-relaxed">{msg.text}</p>
-                <span className={`text-xs mt-2 block ${
-                  msg.sender === 'me' ? 'text-orange-100' : 'text-gray-500'
                 }`}>
+                <p className="text-sm break-words leading-relaxed text-left">{msg.text}</p>
+                <span className={`text-[10px] mt-1 block opacity-80 text-right ${msg.sender === 'me' ? 'text-stone-900' : 'text-gray-500'
+                  }`}>
                   {msg.timestamp}
                 </span>
-                
+
                 {/* Message tail */}
-                <div className={`absolute top-1/2 transform -translate-y-1/2 w-3 h-3 ${
-                  msg.sender === 'me'
-                    ? '-right-1 bg-[#ff5500] rotate-45'
+                <div className={`absolute top-1/2 transform -translate-y-1/2 w-3 h-3 ${msg.sender === 'me'
+                    ? '-right-1 bg-[#ff9f5a] rotate-45'
                     : '-left-1 bg-white border-l border-b border-gray-200 rotate-45'
-                }`}></div>
+                  }`}></div>
               </div>
             </div>
           </div>
@@ -199,8 +196,8 @@ const ChatWindow = ({ selectedChat, onBack, isMobile }) => {
       </div>
 
       {/* Message Input - Always visible at bottom, fixed */}
-      <div className="px-6 py-4 border-t border-gray-200 bg-white flex-shrink-0">
-        <div className="flex items-end gap-4">
+      <div className="px-6 py-4 border-t border-gray-200 bg-white flex-shrink-0 flex justify-center">
+        <div className="flex items-end gap-4 w-full max-w-2xl">
           <div className="flex-1 min-w-0">
             <textarea
               value={message}
@@ -210,34 +207,34 @@ const ChatWindow = ({ selectedChat, onBack, isMobile }) => {
               rows={1}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent resize-none text-sm"
             />
-            
+
             {/* Input Icons */}
             {/* <div className="flex items-center gap-5 mt-3 text-gray-400">
-              <button className="hover:text-gray-600 transition-colors">
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              </button>
-              <button className="hover:text-gray-600 transition-colors">
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-                </svg>
-              </button>
-              <span className="text-sm font-medium">GIF</span>
-              <button className="hover:text-gray-600 transition-colors">
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </button>
-            </div> */}
+        <button className="hover:text-gray-600 transition-colors">
+          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </button>
+        <button className="hover:text-gray-600 transition-colors">
+          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+          </svg>
+        </button>
+        <span className="text-sm font-medium">GIF</span>
+        <button className="hover:text-gray-600 transition-colors">
+          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </button>
+      </div> */}
           </div>
-          
           <button
             onClick={handleSendMessage}
             disabled={!message.trim()}
-            className="px-8 py-3 bg-[#ff5500] text-white rounded-xl hover:bg-[#e64d00] disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-medium flex-shrink-0 shadow-sm"
+            className="px-8 py-2 mb-1.5 bg-[#ff5500] text-white rounded-xl hover:bg-[#e64d00] disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-medium flex-shrink-0 shadow-sm"
           >
-            Send
+            <svg viewBox="0 0 24 24" aria-hidden="true"
+              className='w-[30px]'><g><path d="M2.504 21.866l.526-2.108C3.04 19.719 4 15.823 4 12s-.96-7.719-.97-7.757l-.527-2.109L22.236 12 2.504 21.866zM5.981 13c-.072 1.962-.34 3.833-.583 5.183L17.764 12 5.398 5.818c.242 1.349.51 3.221.583 5.183H10v2H5.981z"></path></g></svg>
           </button>
         </div>
       </div>
