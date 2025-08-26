@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const GlowModeModal = ({ isOpen, onClose, onSave, setGlowBtnEnabled }) => {
+const GlowModeModal = ({ isOpen, onClose, onSave, setGlowEnabled }) => {
   const [formData, setFormData] = useState({
     vibe: '',
     duration: '1 Hour',
@@ -18,7 +18,7 @@ const GlowModeModal = ({ isOpen, onClose, onSave, setGlowBtnEnabled }) => {
   };
 
   const handleSave = () => {
-    setGlowBtnEnabled(prev => !prev);
+    setGlowEnabled(prev => !prev);
     onSave?.(formData);
     onClose();
   };

@@ -9,7 +9,7 @@ import { GoHome } from "react-icons/go";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { IoMdAddCircleOutline } from "react-icons/io";
-import { FaRegUser } from "react-icons/fa6";
+import { FaLandMineOn, FaRegUser } from "react-icons/fa6";
 
 
 const navItems = [
@@ -24,7 +24,6 @@ export default function Header() {
   const [glowEnabled, setGlowEnabled] = useState(false);
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
   const [isGlowModeModalOpen, setIsGlowModeModalOpen] = useState(false);
-  const [glowBtnEnabled, setGlowBtnEnabled] = useState(false);
   const [glowBtnVisible, setGlowBtnVisible] = useState(false);
   // const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
@@ -69,16 +68,16 @@ export default function Header() {
   };
 
   const handleGlowToggle = () => {
-    const newGlowState = !glowEnabled;
-    setGlowEnabled(newGlowState);
+    // const newGlowState = !glowEnabled;
+    // setGlowEnabled(newGlowState);
 
-    // If enabling glow mode, show the modal
-    if (newGlowState) {
+    // If enabling glow mode and modal not shown yet
+    if (!glowEnabled) {
       setIsGlowModeModalOpen(true);
     }
 
-    if (glowBtnEnabled) {
-      setGlowBtnEnabled(false);
+    if (glowEnabled) {
+      setGlowEnabled(false);
     }
   };
 
@@ -152,20 +151,20 @@ export default function Header() {
             {/* Glow switch */}
             <div
               role="switch"
-              aria-checked={glowBtnEnabled}
+              aria-checked={glowEnabled}
               aria-label="Enable glow mode"
               tabIndex={0}
               onClick={handleGlowToggle}
               onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && handleGlowToggle()}
               className={[
                 'relative h-6 w-14 rounded-full transition-colors cursor-pointer shrink-0 flex items-center px-1',
-                glowBtnEnabled ? 'bg-[#ff5500]' : 'bg-gray-200'
+                glowEnabled ? 'bg-[#ff5500]' : 'bg-gray-200'
               ].join(' ')}
             >
               <span
                 className={[
                   'h-4 w-4 rounded-full bg-white shadow-sm transition-transform',
-                  glowBtnEnabled ? 'translate-x-8' : 'translate-x-0'
+                  glowEnabled ? 'translate-x-8' : 'translate-x-0'
                 ].join(' ')}
               />
             </div>
@@ -205,7 +204,7 @@ export default function Header() {
         isOpen={isGlowModeModalOpen}
         onClose={() => setIsGlowModeModalOpen(false)}
         onSave={handleGlowModeSave}
-        setGlowBtnEnabled={setGlowBtnEnabled}
+        setGlowEnabled={setGlowEnabled}
       />
     </>
   );
