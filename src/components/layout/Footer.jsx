@@ -52,7 +52,7 @@ const Footer = () => {
             <h3 className="text-[#ff5500] font-bold text-xl md:text-2xl mb-3 md:mb-4">
               Umigo
             </h3>
-            <p className="text-gray-300 mb-4 ml-4 md:mb-6 max-w-md text-sm md:text-base">
+            <p className="text-gray-300 mb-4 ml-8 xl:ml-20 md:mb-6 max-w-md text-sm md:text-base">
               Turn ideas into hangouts — with maps, media, and memories.
               Connect with people who share your interests and create unforgettable experiences.
             </p>

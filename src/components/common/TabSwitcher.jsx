@@ -4,7 +4,7 @@ function TabSwitcher({ active = 'Plans', onChange }) {
   const tabs = ['Plans', 'Spotlight'];
   return (
    <div
-  className="flex gap-3 bg-white p-1 rounded-xl sm:border sm:border-[#000]/20 w-[360px] max-[380px]:w-auto"
+  className="flex gap-3 bg-white p-1 rounded-xl sm:border sm:border-[#fff]/20 w-[360px] max-[380px]:w-auto"
 >
   {tabs.map((tab) => {
     const isActive = active === tab;

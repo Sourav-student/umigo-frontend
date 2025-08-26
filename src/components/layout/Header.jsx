@@ -127,7 +127,7 @@ export default function Header() {
           </nav>
 
           {/* Right icons + auth + glow toggle */}
-          <div className={`items-center gap-4 ${glowBtnVisible ? "flex" : "hidden"}`}>
+          <div className="flex items-center gap-4">
             {/* Authentication status */}
             {/* {isAuthenticated ? (
               <div className="flex items-center gap-3">
@@ -148,26 +148,33 @@ export default function Header() {
               </NavLink>
             )} */}
 
-            {/* Glow switch */}
-            <div
-              role="switch"
-              aria-checked={glowEnabled}
-              aria-label="Enable glow mode"
-              tabIndex={0}
-              onClick={handleGlowToggle}
-              onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && handleGlowToggle()}
-              className={[
-                'relative h-6 w-14 rounded-full transition-colors cursor-pointer shrink-0 flex items-center px-1',
-                glowEnabled ? 'bg-[#ff5500]' : 'bg-gray-200'
-              ].join(' ')}
-            >
-              <span
-                className={[
-                  'h-4 w-4 rounded-full bg-white shadow-sm transition-transform',
-                  glowEnabled ? 'translate-x-8' : 'translate-x-0'
-                ].join(' ')}
-              />
-            </div>
+            {/* Glow switch for home screen*/}
+            {
+              glowBtnVisible ?
+                <div
+                  role="switch"
+                  aria-checked={glowEnabled}
+                  aria-label="Enable glow mode"
+                  tabIndex={0}
+                  onClick={handleGlowToggle}
+                  onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && handleGlowToggle()}
+                  className={[
+                    'relative h-6 w-14 rounded-full transition-colors cursor-pointer shrink-0 flex items-center px-1',
+                    glowEnabled ? 'bg-[#ff5500]' : 'bg-gray-200'
+                  ].join(' ')}
+                >
+                  <span
+                    className={[
+                      'h-4 w-4 rounded-full bg-white shadow-sm transition-transform',
+                      glowEnabled ? 'translate-x-8' : 'translate-x-0'
+                    ].join(' ')}
+                  />
+                </div>
+                :
+                <div
+                  className={
+                    'relative h-6 w-14 rounded-full transition-colors cursor-pointer shrink-0 flex items-center px-1 bg-transparent'} />
+            }
           </div>
         </div>
       </header>

@@ -60,11 +60,11 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-[#f9f9f9] text-[#ff5500] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#f9f9f9] text-[#ff5500] flex items-center justify-center py-12 pt-32 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="text-center text-2xl font-extrabold mb-2">Welcome Back</h2>
-          <p className="text-center opacity-80">Sign in to your UmiGo account</p>
+          <p className="text-center opacity-80">Sign in to your Umigo account</p>
         </div>
 
         {successMessage && (
@@ -82,7 +82,7 @@ const Login = () => {
 
           <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold mb-2">Email Address</label>
+              {/* <label htmlFor="email" className="block text-sm font-semibold mb-2">Email Address</label> */}
               <input
                 id="email"
                 name="email"
@@ -99,7 +99,7 @@ const Login = () => {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold mb-2">Password</label>
+              {/* <label htmlFor="password" className="block text-sm font-semibold mb-2">Password</label> */}
               <input
                 id="password"
                 name="password"
@@ -136,7 +136,7 @@ const Login = () => {
 
           <div className="text-center">
             <p className="opacity-80">
-              Don't have an account?{' '}
+              <span className="text-black">Don't have an account?</span>{' '}
               <button type="button" onClick={() => navigate("/signup")} className="text-[#ff5500] hover:text-[#e64d00] transition-colors duration-200">
                 Sign up here
               </button>
