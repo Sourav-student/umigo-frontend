@@ -34,7 +34,7 @@ function PlanDetailCard({ plan, onClose, onApproach, onChat }) {
         </div>
 
         {/* Header with Movie Reels */}
-        <div className="relative h-40 ">
+        <div className="relative h-40">
           {/* Decorative Movie Reels */}
           <div className="absolute inset-0 opacity-70">
             <img src={plan.bannerImage} alt="" className="w-full h-full object-cover" />
@@ -43,25 +43,29 @@ function PlanDetailCard({ plan, onClose, onApproach, onChat }) {
           </div>
 
           {/* Profile Image */}
-          <div className="absolute -bottom-10 left-6 w-20 h-20">
+          <div className="absolute -bottom-16 left-6 w-28 h-28">
             <img
               src={plan.avatarUrl || 'https://randomuser.me/api/portraits/men/1.jpg'}
               alt={plan.name}
               className="w-full h-full rounded-full object-cover border-4 border-white shadow-md"
             />
+            {/* Name */}
+            <div className=" relative left-[150px] bottom-[50px] flex items-center text-stone-900 text-xl font-semibold text-nowrap">
+              <span>{plan.name || 'Selmon Bhai'}</span>
+            </div>
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="px-6 pt-14 pb-6">
-          {/* Name */}
+        <div className="px-6 pt-20 pb-6">
+          {/* Name
           <div className="flex items-center text-gray-700">
             <span>{plan.name || 'Selmon Bhai'}</span>
-          </div>
+          </div> */}
 
           {/* Event Details */}
           <div className="space-y-4 mb-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 flex justify-start items-center"><BsFilm className="w-5 h-5 mr-3 text-gray-500" />{plan.subtitle}</h3>
+            <h3 className="text-xl text-gray-900 mb-6 flex justify-start items-center"><BsFilm className="w-5 h-5 mr-3 text-gray-500" />{plan.subtitle}</h3>
             <div className="flex items-center text-gray-700">
               <BsClock className="w-5 h-5 mr-3 text-gray-500" />
               <span>Time: 7:15 PM Today</span>

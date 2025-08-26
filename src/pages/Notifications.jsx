@@ -125,7 +125,7 @@ const NotificationItem = ({ notification, onDelete }) => {
                 {/* <span className="text-gray-500">•</span> */}
               </div>
               <p className="text-gray-600 text-sm text-start mt-1">{notification.text}</p>
-              <span className="text-xs absolute right-0 p-1 bottom-1 text-gray-500 flex items-center">
+              <span className="text-[9px] absolute right-0 pt-2 p-1 bottom-1 text-gray-500 flex items-center">
                 <FiClock className="mr-1" size={12} />
                 {formatTime(notification.timestamp)}
               </span>

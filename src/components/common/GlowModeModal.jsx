@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const GlowModeModal = ({ isOpen, onClose, onSave }) => {
+const GlowModeModal = ({ isOpen, onClose, onSave, setGlowBtnEnabled }) => {
   const [formData, setFormData] = useState({
     vibe: '',
     duration: '1 Hour',
@@ -18,6 +18,7 @@ const GlowModeModal = ({ isOpen, onClose, onSave }) => {
   };
 
   const handleSave = () => {
+    setGlowBtnEnabled(prev => !prev);
     onSave?.(formData);
     onClose();
   };
@@ -118,7 +119,7 @@ const GlowModeModal = ({ isOpen, onClose, onSave }) => {
             {/* Save Button */}
             <button
               onClick={handleSave}
-              className="w-fit bg-[#ff5500] text-white py-3 px-4 rounded-lg hover:bg-[#e64d00] transition-colors font-medium mt-6"
+              className="text-2xl w-fit bg-[#ff5500] text-white py-2 px-10 rounded-2xl hover:bg-[#e64d00] transition-colors font-medium mt-6"
             >
               Save
             </button>

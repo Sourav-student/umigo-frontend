@@ -138,9 +138,9 @@ const ChatWindow = ({ selectedChat, onBack, isMobile }) => {
 
         <div className="flex-1 min-w-0 text-justify">
           <h2 className="font-semibold text-gray-900 truncate text-lg">{selectedChat.name}</h2>
-          {selectedChat.title && (
+          {/* {selectedChat.title && (
             <p className="text-sm text-gray-500 truncate mt-1">{selectedChat.title}</p>
-          )}
+          )} */}
         </div>
 
         {/* <div className="flex items-center gap-2 flex-shrink-0">
@@ -174,19 +174,19 @@ const ChatWindow = ({ selectedChat, onBack, isMobile }) => {
               )} */}
 
               <div className={`relative px-4 py-3 pb-1 rounded-2xl ${msg.sender === 'me'
-                  ? 'bg-[#ff9f5a] text-black'
-                  : 'bg-white text-gray-900 border border-gray-200 shadow-sm'
+                ? 'bg-[#ffc59b] text-black'
+                : 'bg-white text-gray-900 border border-gray-200 shadow-sm'
                 }`}>
                 <p className="text-sm break-words leading-relaxed text-left">{msg.text}</p>
-                <span className={`text-[10px] mt-1 block opacity-80 text-right ${msg.sender === 'me' ? 'text-stone-900' : 'text-gray-500'
+                <span className={`text-[9px] mt-1 block opacity-60 text-right ${msg.sender === 'me' ? 'text-stone-900' : 'text-gray-500'
                   }`}>
                   {msg.timestamp}
                 </span>
 
                 {/* Message tail */}
                 <div className={`absolute top-1/2 transform -translate-y-1/2 w-3 h-3 ${msg.sender === 'me'
-                    ? '-right-1 bg-[#ff9f5a] rotate-45'
-                    : '-left-1 bg-white border-l border-b border-gray-200 rotate-45'
+                  ? '-right-1 bg-[#ffc59b] rotate-45'
+                  : '-left-1 bg-white border-l border-b border-gray-200 rotate-45'
                   }`}></div>
               </div>
             </div>
@@ -196,16 +196,16 @@ const ChatWindow = ({ selectedChat, onBack, isMobile }) => {
       </div>
 
       {/* Message Input - Always visible at bottom, fixed */}
-      <div className="px-6 py-4 border-t border-gray-200 bg-white flex-shrink-0 flex justify-center">
-        <div className="flex items-end gap-4 w-full max-w-2xl">
-          <div className="flex-1 min-w-0">
+      <div className="w-full px-3 py-4 border-t border-gray-200 bg-white">
+        <div className="flex gap-3 w-full">
+          <div className="flex-1">
             <textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Write a message..."
               rows={1}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent resize-none text-sm"
+              className="w-full text-black px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent resize-none text-sm"
             />
 
             {/* Input Icons */}
@@ -231,14 +231,15 @@ const ChatWindow = ({ selectedChat, onBack, isMobile }) => {
           <button
             onClick={handleSendMessage}
             disabled={!message.trim()}
-            className="px-8 py-2 mb-1.5 bg-[#ff5500] text-white rounded-xl hover:bg-[#e64d00] disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-medium flex-shrink-0 shadow-sm"
+            className="px-5 py-3 mb-2 bg-[#ff5500] text-white rounded-xl hover:bg-[#e64d00] disabled:bg-[#ff550032] disabled:cursor-not-allowed transition-colors font-medium shadow-sm flex items-center justify-center"
           >
-            <svg viewBox="0 0 24 24" aria-hidden="true"
-              className='w-[30px]'><g><path d="M2.504 21.866l.526-2.108C3.04 19.719 4 15.823 4 12s-.96-7.719-.97-7.757l-.527-2.109L22.236 12 2.504 21.866zM5.981 13c-.072 1.962-.34 3.833-.583 5.183L17.764 12 5.398 5.818c.242 1.349.51 3.221.583 5.183H10v2H5.981z"></path></g></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true" className="w-5 h-5">
+              <path d="M2.504 21.866l.526-2.108C3.04 19.719 4 15.823 4 12s-.96-7.719-.97-7.757l-.527-2.109L22.236 12 2.504 21.866zM5.981 13c-.072 1.962-.34 3.833-.583 5.183L17.764 12 5.398 5.818c.242 1.349.51 3.221.583 5.183H10v2H5.981z"></path>
+            </svg>
           </button>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

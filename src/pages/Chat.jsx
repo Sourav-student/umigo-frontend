@@ -30,7 +30,7 @@ const Chat = () => {
   if (isMobile) {
     if (selectedChat) {
       return (
-        <div className="h-[calc(100vh-80px)] mt-0 bg-white px-4 pb-4 overflow-hidden max-sm:px-0">
+        <div className="h-[calc(100vh-80px)] mt-0 bg-white px-4 pb-4 overflow-hidden max-md:px-0">
           <div className="h-full bg-white rounded-lg shadow-lg overflow-hidden">
             <ChatWindow
               selectedChat={selectedChat}
@@ -42,7 +42,7 @@ const Chat = () => {
       );
     } else {
       return (
-        <div className="h-[calc(100vh-80px)] mt-0 bg-white px-4 pb-4 overflow-hidden max-sm:px-0">
+        <div className="h-[calc(100vh-80px)] mt-0 bg-white px-4 pb-4 overflow-hidden max-md:px-0">
           <div className="h-full bg-white rounded-lg shadow-lg overflow-hidden">
             <ChatList
               onSelectChat={handleChatSelect}

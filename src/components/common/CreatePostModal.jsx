@@ -232,7 +232,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
             {/* Post Button */}
             <button
               onClick={handleSubmit}
-              className="w-fit bg-[#ff5500] text-white py-3 px-4 rounded-lg hover:bg-[#e64d00] transition-colors font-medium mt-6"
+              className="text-2xl w-fit bg-[#ff5500] text-white py-2 px-10 rounded-2xl hover:bg-[#e64d00] transition-colors font-medium mt-6"
             >
               Post
             </button>
