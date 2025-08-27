@@ -35,7 +35,7 @@ function SpotlightCard({
         glow ? 'ring-1 ring-[#ff5500]/30' : ''
       ].join(' ')}
     >
-      <div className="flex items-center md:flex-col gap-4">
+      <div className="flex items-center gap-4">
         <img
           src={avatarUrl}
           alt={name}
@@ -48,13 +48,13 @@ function SpotlightCard({
           <p className="text-sm opacity-80">{location}</p> */}
         </div>
       </div>
-      <div className='flex flex-col gap-14'>
+      <div className='flex flex-col gap-22 max-[380px]:gap-3'>
         <p className='text-sm border border-[#ff5500] rounded-2xl px-1'>
           Open To Anything
         </p>
         <button
           onClick={handleApproachClick}
-          className="px-10 py-1 bg-[#ff5500] text-white rounded-xl hover:bg-[#e64d00] transition-colors z-10"
+          className="px-2 py-1 bg-[#ff5500] text-white rounded-xl hover:bg-[#e64d00] transition-colors z-10"
         >
           Approach
         </button>

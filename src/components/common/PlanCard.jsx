@@ -46,14 +46,14 @@ function PlanCard({
           alt={name}
           className="absolute -bottom-12 left-4 h-24 w-24 rounded-full object-cover ring-4 ring-white z-10"
         />
-        <div className="absolute -bottom-10 left-32 text-lg mr-14 font-medium text-[#000000]">{name}</div>
+        <div className="absolute -bottom-8 left-30 text-lg mr-14 font-medium text-[#000000]">{name}</div>
       </div>
 
       {/* Content */}
       <div className="w-full p-4 pt-14 flex justify-between">
         <div>
           {subtitle && (
-            <div className="mt-3 text-[#1c1c1c] flex items-center font-semibold gap-2">
+            <div className="mt-3 text-[#1c1c1c] flex items-center font-bold gap-2">
               <span role="img" aria-label="place">🛒</span>
               <span>{subtitle}</span>
             </div>

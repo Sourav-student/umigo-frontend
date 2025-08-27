@@ -72,7 +72,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
            
               <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 19l-7-7 7-7"/><path d="M6 12h12"/></svg>
             </button>
-            <h2 className="text-lg font-semibold text-gray-900">Make A Plan</h2>
+            <h2 className="text-lg font-semibold text-gray-900">Make a Plan</h2>
             <div className="w-6"></div> {/* Spacer for centering */}
           </div>
 
