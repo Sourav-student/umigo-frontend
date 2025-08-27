@@ -3,7 +3,9 @@ import React from 'react';
 function TabSwitcher({ active = 'Plans', onChange }) {
   const tabs = ['Plans', 'Spotlight'];
   return (
-    <div className="inline-flex bg-white rounded-xl p-1 border border-[#ff5500]/20">
+    <div
+      className="flex gap-3 bg-white p-1 rounded-xl sm:border sm:border-[#fff]/20 w-[360px] max-[380px]:w-auto"
+    >
       {tabs.map((tab) => {
         const isActive = active === tab;
         return (
@@ -11,9 +13,11 @@ function TabSwitcher({ active = 'Plans', onChange }) {
             key={tab}
             onClick={() => onChange?.(tab)}
             className={[
-              'px-5 py-2 rounded-lg font-semibold transition-all',
-              isActive ? 'bg-[#ff5500] text-white shadow-sm' : 'text-[#ff5500] hover:bg-[#ffd3bf]'
-            ].join(' ')}
+              "w-[170px] max-[380px]:w-auto flex-1 sm:flex-none px-4 py-2 font-semibold transition-all focus:outline-none rounded-xl",
+              isActive
+                ? "bg-[#ff550032] text-[#ff5500] shadow-sm"
+                : "text-[#000000] hover:bg-[#fff0e9]"
+            ].join(" ")}
             aria-pressed={isActive}
           >
             {tab}
@@ -21,6 +25,7 @@ function TabSwitcher({ active = 'Plans', onChange }) {
         );
       })}
     </div>
+
   );
 }
 

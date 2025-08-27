@@ -85,11 +85,11 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f9f9f9] text-[#ff5500] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className=" bg-[#f9f9f9] text-[#ff5500] flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="text-center text-2xl font-extrabold mb-2">Create New Account</h2>
-          <p className="text-center opacity-80">Join UmiGo and start connecting with others</p>
+          <p className="text-center opacity-80 text-black">Join Umigo and start connecting with others</p>
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -101,7 +101,7 @@ const SignUp = () => {
 
           <div className="space-y-4">
             <div>
-              <label htmlFor="name" className="block text-sm font-semibold mb-2">Full Name</label>
+              {/* <label htmlFor="name" className="block text-sm font-semibold mb-2">Full Name</label> */}
               <input
                 id="name"
                 name="name"
@@ -116,7 +116,7 @@ const SignUp = () => {
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold mb-2">Email Address</label>
+              {/* <label htmlFor="email" className="block text-sm font-semibold mb-2">Email Address</label> */}
               <input
                 id="email"
                 name="email"
@@ -131,7 +131,7 @@ const SignUp = () => {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold mb-2">Password</label>
+              {/* <label htmlFor="password" className="block text-sm font-semibold mb-2">Password</label> */}
               <input
                 id="password"
                 name="password"
@@ -146,7 +146,7 @@ const SignUp = () => {
             </div>
 
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-semibold mb-2">Confirm Password</label>
+              {/* <label htmlFor="confirmPassword" className="block text-sm font-semibold mb-2">Confirm Password</label> */}
               <input
                 id="confirmPassword"
                 name="confirmPassword"
@@ -162,7 +162,7 @@ const SignUp = () => {
 
             {/* Mobile Number */}
             <div>
-              <label htmlFor="mobile" className="block text-sm font-semibold mb-2">Mobile Number</label>
+              {/* <label htmlFor="mobile" className="block text-sm font-semibold mb-2">Mobile Number</label> */}
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                   <span className="text-gray-500">+91</span>
@@ -193,7 +193,7 @@ const SignUp = () => {
 
           <div className="text-center">
             <p className="opacity-80">
-              Already have an account?{' '}
+              <span className='text-black'>Already have an account?</span>{' '}
               <button type="button" onClick={() => navigate('/login')} className="text-[#ff5500] hover:text-[#e64d00] transition-colors duration-200">
                 Sign in here
               </button>

@@ -5,7 +5,7 @@ import { IoLocation } from 'react-icons/io5';
 
 function PlanDetailCard({ plan, onClose, onApproach, onChat }) {
   if (!plan) return null;
-  
+
   const handleApproach = (e) => {
     e.stopPropagation();
     if (onApproach) onApproach();
@@ -18,13 +18,13 @@ function PlanDetailCard({ plan, onClose, onApproach, onChat }) {
 
   return (
     <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center p-4" onClick={onClose}>
-      <div 
-        className="w-full max-w-[360px] bg-white rounded-2xl shadow-lg overflow-hidden" 
+      <div
+        className="w-full max-w-[360px] bg-white rounded-2xl shadow-lg overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Bar - Only back button */}
         <div className="p-4 flex items-center justify-start">
-          <button 
+          <button
             onClick={onClose}
             className="text-gray-700 p-2 rounded-full hover:bg-gray-100"
             aria-label="Back"
@@ -34,42 +34,45 @@ function PlanDetailCard({ plan, onClose, onApproach, onChat }) {
         </div>
 
         {/* Header with Movie Reels */}
-        <div className="relative h-40 ">
+        <div className="relative h-40">
           {/* Decorative Movie Reels */}
           <div className="absolute inset-0 opacity-70">
             <img src={plan.bannerImage} alt="" className="w-full h-full object-cover" />
             {/* <div className="absolute top-4 left-4 w-20 h-20 rounded-full border-4 border-white/30"></div>
             <div className="absolute bottom-4 right-4 w-20 h-20 rounded-full border-4 border-white/30"></div> */}
           </div>
-          
+
           {/* Profile Image */}
-          <div className="absolute -bottom-10 left-6 w-20 h-20">
+          <div className="absolute -bottom-16 left-6 w-28 h-28">
             <img
               src={plan.avatarUrl || 'https://randomuser.me/api/portraits/men/1.jpg'}
               alt={plan.name}
               className="w-full h-full rounded-full object-cover border-4 border-white shadow-md"
             />
+            {/* Name */}
+            <div className=" relative left-[140px] bottom-[50px] flex items-center text-stone-900 text-xl text-nowrap">
+              <span>{plan.name || 'Selmon Bhai'}</span>
+            </div>
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="px-6 pt-14 pb-6">
-          {/* Name */}
-          <h3 className="text-2xl font-bold text-gray-900 mb-6 flex justify-start items-center"><BsFilm className="w-5 h-5 mr-3 text-gray-500" />Oppenheimer Rewatch</h3>
-          
+        <div className="px-6 pt-20 pb-6">
+          {/* Name
+          <div className="flex items-center text-gray-700">
+            <span>{plan.name || 'Selmon Bhai'}</span>
+          </div> */}
+
           {/* Event Details */}
-          <div className="space-y-4 mb-8">
-            <div className="flex items-center text-gray-700">
-              
-              <span>{plan.name || 'Selmon Bhai'}</span>
-            </div>
+          <div className="space-y-2 mb-8">
+            <h3 className="text-xl text-gray-900 mt-6 mb-2 flex justify-start items-center font-semibold"><BsFilm className="w-5 h-5 mr-3 text-gray-500"/>{plan.subtitle}</h3>
             <div className="flex items-center text-gray-700">
               <BsClock className="w-5 h-5 mr-3 text-gray-500" />
-              <span>Time: 7:15 PM Today</span>
+              <span>{plan.time}</span>
             </div>
             <div className="flex items-center text-gray-700">
               <IoLocation className="w-5 h-5 mr-3 text-red-500" />
-              <span>PVR Phoenix, Lower Parel</span>
+              <span>{plan.location}</span>
             </div>
           </div>
 

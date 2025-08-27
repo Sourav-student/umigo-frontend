@@ -50,7 +50,7 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="col-span-1 md:col-span-2">
             <h3 className="text-primary font-montserrat font-bold text-2xl mb-4">
-              UmiGo
+              Umigo
             </h3>
             <p className="body-text text-gray-300 mb-6 max-w-md">
               Turn ideas into hangouts — with maps, media, and memories.
@@ -163,7 +163,7 @@ const Footer = () => {
         <div className="border-t border-gray-700 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="body-text text-gray-400 text-center md:text-left">
-              © {currentYear} UmiGo. All Rights Reserved.
+              © {currentYear} Umigo. All Rights Reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <a
