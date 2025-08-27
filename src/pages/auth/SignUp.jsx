@@ -85,11 +85,11 @@ const SignUp = () => {
   };
 
   return (
-    <div className=" bg-[#f9f9f9] text-[#ff5500] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className=" bg-[#f9f9f9] text-[#ff5500] flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="text-center text-2xl font-extrabold mb-2">Create New Account</h2>
-          <p className="text-center opacity-80">Join Umigo and start connecting with others</p>
+          <p className="text-center opacity-80 text-black">Join Umigo and start connecting with others</p>
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>

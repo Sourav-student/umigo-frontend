@@ -18,6 +18,11 @@ const GlowModeModal = ({ isOpen, onClose, onSave, setGlowEnabled }) => {
   };
 
   const handleSave = () => {
+    if (formData.vibe === '') {
+      alert("Fill vibe");
+      return;
+    }
+    
     setGlowEnabled(prev => !prev);
     onSave?.(formData);
     onClose();
@@ -28,11 +33,11 @@ const GlowModeModal = ({ isOpen, onClose, onSave, setGlowEnabled }) => {
   return (
     <>
       {/* Backdrop overlay */}
-      <div 
+      <div
         className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
         onClick={onClose}
       />
-      
+
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-lg shadow-2xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
@@ -43,8 +48,8 @@ const GlowModeModal = ({ isOpen, onClose, onSave, setGlowEnabled }) => {
               className="text-gray-400 hover:text-gray-600 transition-colors"
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M15 19l-7-7 7-7"/>
-                <path d="M6 12h12"/>
+                <path d="M15 19l-7-7 7-7" />
+                <path d="M6 12h12" />
               </svg>
             </button>
             <h2 className="text-lg font-semibold text-gray-900">GlowMode</h2>
@@ -64,6 +69,7 @@ const GlowModeModal = ({ isOpen, onClose, onSave, setGlowEnabled }) => {
                 value={formData.vibe}
                 onChange={(e) => handleInputChange('vibe', e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent placeholder-gray-400"
+                required
               />
             </div>
 
@@ -77,11 +83,10 @@ const GlowModeModal = ({ isOpen, onClose, onSave, setGlowEnabled }) => {
                   <button
                     key={duration}
                     onClick={() => handleInputChange('duration', duration)}
-                    className={`flex-1 px-4 py-3 rounded-lg border transition-colors ${
-                      formData.duration === duration
+                    className={`flex-1 px-4 py-3 rounded-lg border transition-colors ${formData.duration === duration
                         ? 'bg-[#ff5500] text-white border-[#ff5500]'
                         : 'bg-white text-gray-400 border-gray-300 hover:border-gray-400'
-                    }`}
+                      }`}
                   >
                     {duration}
                   </button>

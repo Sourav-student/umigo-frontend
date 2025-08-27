@@ -44,27 +44,34 @@ function PlanCard({
         <img
           src={avatarUrl}
           alt={name}
-          className="absolute -bottom-14 left-4 h-24 w-24 rounded-full object-cover ring-4 ring-white z-10"
+          className="absolute -bottom-12 left-4 h-24 w-24 rounded-full object-cover ring-4 ring-white z-10"
         />
-        <div className="absolute -bottom-10 right-0 text-lg mr-14 font-semibold text-[#000000]">{name}</div>
+        <div className="absolute -bottom-10 left-32 text-lg mr-14 font-medium text-[#000000]">{name}</div>
       </div>
 
       {/* Content */}
       <div className="w-full p-4 pt-14 flex justify-between">
-        {subtitle && (
-          <div className="mt-3 text-[#2b2b2b] flex items-center gap-2">
-            <span role="img" aria-label="place">🛒</span>
-            <span className="opacity-90">{subtitle}</span>
-          </div>
-        )}
         <div>
-          <button
-            onClick={handleJoinClick}
-            className="px-4 py-2 bg-[#ff5500] text-white rounded-xl hover:bg-[#e64d00] transition-colors whitespace-nowrap z-10"
-          >
-            Join
-          </button>
+          {subtitle && (
+            <div className="mt-3 text-[#1c1c1c] flex items-center font-semibold gap-2">
+              <span role="img" aria-label="place">🛒</span>
+              <span>{subtitle}</span>
+            </div>
+          )}
+          {location && (
+            <div className=" text-[#1c1c1c] flex items-center gap-1">
+              <span role="img" aria-label="place">📍</span>
+              <span className='opacity-80 text-sm'>{location}</span>
+            </div>
+          )
+          }
         </div>
+        <button
+          onClick={handleJoinClick}
+          className="h-fit px-4 py-2 mt-5 bg-[#ff5500] text-white rounded-xl hover:bg-[#e64d00] transition-colors whitespace-nowrap z-10"
+        >
+          Join
+        </button>
 
         {/* {subtitle && (
           <div className="mt-3 text-[#2b2b2b] flex items-center gap-2">

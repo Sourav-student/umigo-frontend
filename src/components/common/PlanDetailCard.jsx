@@ -50,7 +50,7 @@ function PlanDetailCard({ plan, onClose, onApproach, onChat }) {
               className="w-full h-full rounded-full object-cover border-4 border-white shadow-md"
             />
             {/* Name */}
-            <div className=" relative left-[150px] bottom-[50px] flex items-center text-stone-900 text-xl font-semibold text-nowrap">
+            <div className=" relative left-[140px] bottom-[50px] flex items-center text-stone-900 text-xl text-nowrap">
               <span>{plan.name || 'Selmon Bhai'}</span>
             </div>
           </div>
@@ -64,15 +64,15 @@ function PlanDetailCard({ plan, onClose, onApproach, onChat }) {
           </div> */}
 
           {/* Event Details */}
-          <div className="space-y-4 mb-8">
-            <h3 className="text-xl text-gray-900 mb-6 flex justify-start items-center"><BsFilm className="w-5 h-5 mr-3 text-gray-500" />{plan.subtitle}</h3>
+          <div className="space-y-2 mb-8">
+            <h3 className="text-xl text-gray-900 mt-6 mb-2 flex justify-start items-center font-semibold"><BsFilm className="w-5 h-5 mr-3 text-gray-500"/>{plan.subtitle}</h3>
             <div className="flex items-center text-gray-700">
               <BsClock className="w-5 h-5 mr-3 text-gray-500" />
-              <span>Time: 7:15 PM Today</span>
+              <span>{plan.time}</span>
             </div>
             <div className="flex items-center text-gray-700">
               <IoLocation className="w-5 h-5 mr-3 text-red-500" />
-              <span>PVR Phoenix, Lower Parel</span>
+              <span>{plan.location}</span>
             </div>
           </div>
 
