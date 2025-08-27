@@ -9,22 +9,22 @@ import { GoHome } from "react-icons/go";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { IoMdAddCircleOutline } from "react-icons/io";
-import { FaRegUser } from "react-icons/fa6";
-
+import { FaLandMineOn, FaRegUser } from "react-icons/fa6";
 
 
 const navItems = [
-  { to: '/', label: 'Home', icon:<GoHome />},
-  { to: '/notifications', label: 'Alerts', icon:<IoNotificationsOutline />},
+  { to: '/', label: 'Home', icon: <GoHome /> },
+  { to: '/notifications', label: 'Alerts', icon: <IoNotificationsOutline /> },
   { to: null, label: 'Add', icon: <IoMdAddCircleOutline />, action: 'create-post' },
-  { to: '/chat', label: 'Chat', icon: <IoChatboxEllipsesOutline />},
-  { to: '/profile', label: 'Me', icon: <FaRegUser />},
+  { to: '/chat', label: 'Chat', icon: <IoChatboxEllipsesOutline /> },
+  { to: '/profile', label: 'Me', icon: <FaRegUser /> },
 ];
 
 export default function Header() {
   const [glowEnabled, setGlowEnabled] = useState(false);
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
   const [isGlowModeModalOpen, setIsGlowModeModalOpen] = useState(false);
+  const [glowBtnVisible, setGlowBtnVisible] = useState(false);
   // const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,6 +39,15 @@ export default function Header() {
     // Notify pages listening for glow changes
     window.dispatchEvent(new CustomEvent('glowModeChange', { detail: glowEnabled }));
   }, [glowEnabled]);
+
+  useEffect(() => {
+    // show glow button only on home page
+    if (location.pathname === "/") {
+      setGlowBtnVisible(true);
+    } else {
+      setGlowBtnVisible(false);
+    }
+  }, [location.pathname]);
 
   // const handleLogout = async () => {
   //   try {
@@ -59,12 +68,16 @@ export default function Header() {
   };
 
   const handleGlowToggle = () => {
-    const newGlowState = !glowEnabled;
-    setGlowEnabled(newGlowState);
-    
-    // If enabling glow mode, show the modal
-    if (newGlowState) {
+    // const newGlowState = !glowEnabled;
+    // setGlowEnabled(newGlowState);
+
+    // If enabling glow mode and modal not shown yet
+    if (!glowEnabled) {
       setIsGlowModeModalOpen(true);
+    }
+
+    if (glowEnabled) {
+      setGlowEnabled(false);
     }
   };
 
@@ -89,9 +102,9 @@ export default function Header() {
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           {/* Logo */}
           <NavLink to="/" className="flex items-center">
-            <img 
-              src={logo} 
-              alt="Logo" 
+            <img
+              src={logo}
+              alt="Logo"
               className="h-10 w-auto object-contain rounded-md"
             />
           </NavLink>
@@ -102,11 +115,10 @@ export default function Header() {
               <button
                 key={item.label}
                 onClick={() => handleNavItemClick(item)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${
-                  isActiveRoute(item.to) 
-                    ? 'bg-[#FFE1CC] text-[#FF5500] shadow-md' 
-                    : 'hover:text-black hover:bg-[#ff5500]/10'
-                }`}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${isActiveRoute(item.to)
+                  ? 'bg-[#FFE1CC] text-[#FF5500] shadow-md'
+                  : 'hover:text-black hover:bg-[#ff5500]/10'
+                  }`}
               >
                 <div className='text-2xl'>{item.icon}</div>
                 <span>{item.label}</span>
@@ -136,26 +148,33 @@ export default function Header() {
               </NavLink>
             )} */}
 
-            {/* Glow switch */}
-            <div
-              role="switch"
-              aria-checked={glowEnabled}
-              aria-label="Enable glow mode"
-              tabIndex={0}
-              onClick={handleGlowToggle}
-              onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && handleGlowToggle()}
-              className={[
-                'relative h-6 w-14 rounded-full transition-colors cursor-pointer shrink-0 flex items-center px-1',
-                glowEnabled ? 'bg-[#ff5500]' : 'bg-gray-200'
-              ].join(' ')}
-            >
-              <span
-                className={[
-                  'h-4 w-4 rounded-full bg-white shadow-sm transition-transform',
-                  glowEnabled ? 'translate-x-8' : 'translate-x-0'
-                ].join(' ')}
-              />
-            </div>
+            {/* Glow switch for home screen*/}
+            {
+              glowBtnVisible ?
+                <div
+                  role="switch"
+                  aria-checked={glowEnabled}
+                  aria-label="Enable glow mode"
+                  tabIndex={0}
+                  onClick={handleGlowToggle}
+                  onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && handleGlowToggle()}
+                  className={[
+                    'relative h-6 w-14 rounded-full transition-colors cursor-pointer shrink-0 flex items-center px-1',
+                    glowEnabled ? 'bg-[#ff5500]' : 'bg-gray-200'
+                  ].join(' ')}
+                >
+                  <span
+                    className={[
+                      'h-4 w-4 rounded-full bg-white shadow-sm transition-transform',
+                      glowEnabled ? 'translate-x-8' : 'translate-x-0'
+                    ].join(' ')}
+                  />
+                </div>
+                :
+                <div
+                  className={
+                    'relative h-6 w-14 rounded-full transition-colors cursor-pointer shrink-0 flex items-center px-1 bg-transparent'} />
+            }
           </div>
         </div>
       </header>
@@ -168,11 +187,10 @@ export default function Header() {
               <button
                 key={item.label}
                 onClick={() => handleNavItemClick(item)}
-                className={`flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-[20%] transition-all duration-200 ${
-                  isActiveRoute(item.to) 
-                    ? 'bg-[#ff5500]/80 text-white shadow-md' 
-                    : 'hover:bg-gray-50'
-                }`}
+                className={`flex flex-col items-center text-black justify-center gap-1 px-4 py-2 text-lg rounded-3xl transition-all duration-200 ${isActiveRoute(item.to)
+                  ? 'bg-[#FFE1CC] text-[#FF5500] shadow-md'
+                  : 'hover:text-black hover:bg-[#ff5500]/10'
+                  }`}
               >
                 {item.icon}
                 {/* <span className="text-xs">{item.label}</span> */}
@@ -183,16 +201,17 @@ export default function Header() {
       </nav>
 
       {/* Create Post Modal */}
-      <CreatePostModal 
-        isOpen={isCreatePostModalOpen} 
-        onClose={() => setIsCreatePostModalOpen(false)} 
+      <CreatePostModal
+        isOpen={isCreatePostModalOpen}
+        onClose={() => setIsCreatePostModalOpen(false)}
       />
 
       {/* GlowMode Modal */}
-      <GlowModeModal 
-        isOpen={isGlowModeModalOpen} 
+      <GlowModeModal
+        isOpen={isGlowModeModalOpen}
         onClose={() => setIsGlowModeModalOpen(false)}
         onSave={handleGlowModeSave}
+        setGlowEnabled={setGlowEnabled}
       />
     </>
   );

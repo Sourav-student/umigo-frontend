@@ -72,7 +72,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
            
               <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 19l-7-7 7-7"/><path d="M6 12h12"/></svg>
             </button>
-            <h2 className="text-lg font-semibold text-gray-900">Make A Plan</h2>
+            <h2 className="text-lg font-semibold text-gray-900">Make a Plan</h2>
             <div className="w-6"></div> {/* Spacer for centering */}
           </div>
 
@@ -104,7 +104,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
             </div>
 
             {/* Vibe */}
-            <div className="relative">
+            {/* <div className="relative">
               <button
                 type="button"
                 onClick={() => setShowVibeDropdown(!showVibeDropdown)}
@@ -134,10 +134,10 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                   ))}
                 </div>
               )}
-            </div>
+            </div> */}
 
             {/* Privacy */}
-            <div className="relative">
+            {/* <div className="relative">
               <button
                 type="button"
                 onClick={() => setShowPrivacyDropdown(!showPrivacyDropdown)}
@@ -167,10 +167,10 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                   ))}
                 </div>
               )}
-            </div>
+            </div> */}
 
             {/* Date */}
-            <div className="relative">
+            {/* <div className="relative">
               <button
                 type="button"
                 onClick={() => setShowDatePicker(!showDatePicker)}
@@ -197,7 +197,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                   />
                 </div>
               )}
-            </div>
+            </div> */}
 
             {/* Time */}
             <div className="relative">
@@ -232,7 +232,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
             {/* Post Button */}
             <button
               onClick={handleSubmit}
-              className="w-full bg-[#ff5500] text-white py-3 px-4 rounded-lg hover:bg-[#e64d00] transition-colors font-medium mt-6"
+              className="text-2xl w-fit bg-[#ff5500] text-white py-2 px-10 rounded-2xl hover:bg-[#e64d00] transition-colors font-medium mt-6"
             >
               Post
             </button>

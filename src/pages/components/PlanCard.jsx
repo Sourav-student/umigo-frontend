@@ -27,7 +27,7 @@ function PlanCard({
         <img
           src={avatarUrl}
           alt={name}
-          className="absolute -bottom-8 left-4 h-16 w-16 rounded-full object-cover ring-4 ring-white z-10"
+          className="absolute -bottom-8 left-4 h-24 w-24 rounded-full object-cover ring-4 ring-white z-10"
         />
       </div>
 

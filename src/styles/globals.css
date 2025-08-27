@@ -150,6 +150,7 @@ body {
 
 /* Focus styles for accessibility */
 *:focus {
-  outline: 2px solid #eb8228;
-  outline-offset: 2px;
+  outline: none;
+  /* outline: 2px solid #eb8228;
+  outline-offset: 2px; */
 }
