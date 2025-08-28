@@ -30,7 +30,7 @@ function PlanCard({
       onClick={onCardClick}
       className={[
         'relative bg-white rounded-2xl shadow-sm overflow-hidden w-full max-w-md mx-auto cursor-pointer transition-transform hover:scale-[1.02] border border-stone-300',
-        glow ? 'ring-1 ring-[#ff5500]/30 shadow-[0_0_24px_rgba(255,85,0,0.18)]' : '',
+        glow ? ' ring-[#ff5500]/30 shadow-[0_0_24px_rgba(255,85,0,0.18)]' : '',
         className,
       ].join(' ')}
     >
