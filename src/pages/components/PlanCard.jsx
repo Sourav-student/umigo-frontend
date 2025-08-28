@@ -13,7 +13,7 @@ function PlanCard({
     <div
       className={[
         'relative bg-white rounded-2xl border border-[#ff5500]/20 shadow-sm overflow-hidden w-full max-w-md mx-auto',
-        glow ? 'ring-1 ring-[#ff5500]/30 shadow-[0_0_24px_rgba(255,85,0,0.18)]' : '',
+        glow ? 'shadow-[0_0_24px_rgba(255,85,0,0.18)]' : '',
         className,
       ].join(' ')}
     >
