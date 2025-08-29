@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 function PlanCard({
@@ -13,15 +13,19 @@ function PlanCard({
   glow = false,
   className = '',
 }) {
+
+  const [join, setJoin] = useState(false);
+
   const handleJoinClick = (e) => {
     e.stopPropagation(); // Prevent card click from firing
     if (onJoin) {
       onJoin();
     } else {
-      toast.success(`You've joined ${name}'s plan!`, {
-        position: 'top-center',
-        autoClose: 3000,
-      });
+      // toast.success(`You've joined ${name}'s plan!`, {
+      //   position: 'top-center',
+      //   autoClose: 3000,
+      // });
+      setJoin(prev => !prev);
     }
   };
 
@@ -29,7 +33,7 @@ function PlanCard({
     <div
       onClick={onCardClick}
       className={[
-        'relative bg-white rounded-2xl shadow-sm overflow-hidden w-full max-w-md mx-auto cursor-pointer transition-transform hover:scale-[1.02] border border-stone-300',
+        'relative bg-white rounded-2xl shadow-sm overflow-hidden w-full max-w-md mx-auto cursor-pointer transition-transform hover:scale-[1.02]',
         glow ? 'ring-1 ring-[#ff5500]/30 shadow-[0_0_24px_rgba(255,85,0,0.18)]' : '',
         className,
       ].join(' ')}
@@ -46,7 +50,7 @@ function PlanCard({
           alt={name}
           className="absolute -bottom-12 left-4 h-24 w-24 rounded-full object-cover ring-4 ring-white z-10"
         />
-        <div className="absolute -bottom-8 left-30 text-lg mr-14 font-medium text-[#000000]">{name}</div>
+        <div className="absolute -bottom-8 left-30 text-lg mr-14 font-normal text-[#000000]">{name}</div>
       </div>
 
       {/* Content */}
@@ -59,7 +63,7 @@ function PlanCard({
             </div>
           )}
           {location && (
-            <div className=" text-[#1c1c1c] flex items-center gap-1">
+            <div className=" text-[#5f5f5f] flex items-center gap-1">
               <span role="img" aria-label="place">📍</span>
               <span className='opacity-80 text-sm'>{location}</span>
             </div>
@@ -68,9 +72,9 @@ function PlanCard({
         </div>
         <button
           onClick={handleJoinClick}
-          className="h-fit px-4 py-2 mt-5 bg-[#ff5500] text-white rounded-xl hover:bg-[#e64d00] transition-colors whitespace-nowrap z-10"
+          className={`h-fit px-4 py-2 mt-5 text-white rounded-xl transition-colors whitespace-nowrap z-10 cursor-pointer ${join? "bg-[#8e8e8e] hover:bg-[#5b5b5b]" : "bg-[#ff5500] hover:bg-[#e64d00]"}`}
         >
-          Join
+          {join ? <span>Requested</span> : <span>Join</span>}
         </button>
 
         {/* {subtitle && (
