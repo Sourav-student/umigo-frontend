@@ -161,26 +161,31 @@ function Landing() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [itemsToShow, setItemsToShow] = useState(ITEMS_PER_PAGE);
 
-  // Listen for glow mode changes
+  // Initialize glow mode and set initial tab
   useEffect(() => {
     const saved = localStorage.getItem('glowMode');
-    if (saved !== null) setGlowEnabled(JSON.parse(saved));
+    if (saved !== null) {
+      const savedGlowState = JSON.parse(saved);
+      setGlowEnabled(savedGlowState);
+      // Set initial tab based on saved glow mode state
+      setActiveTab(savedGlowState ? 'Spotlight' : 'Plans');
+    }
+  }, []);
 
+  // Handle glow mode changes and update tab accordingly
+  useEffect(() => {
     const handleGlowModeChange = (e) => {
       const newGlowState = e.detail;
       setGlowEnabled(newGlowState);
-
-      // If glow mode is turned off and we're on the Spotlight tab, switch to Plans
-      if (!newGlowState && activeTab === 'Spotlight') {
-        setActiveTab('Plans');
-      }
+      // Always switch tab when glow mode changes
+      setActiveTab(newGlowState ? 'Spotlight' : 'Plans');
     };
 
     window.addEventListener('glowModeChange', handleGlowModeChange);
     return () => {
       window.removeEventListener('glowModeChange', handleGlowModeChange);
     };
-  }, [activeTab]);
+  }, []);
 
   useEffect(() => {
     const saved = localStorage.getItem('glowMode');

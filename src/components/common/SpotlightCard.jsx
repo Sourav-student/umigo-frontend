@@ -53,13 +53,13 @@ function SpotlightCard({
         />
         <div className="text-[#1b1b1b] text-left">
           <h3 className="text-lg font-bold">{name}</h3>
-          <p className="text-xs text-nowrap opacity-60">Central Park</p>
+          <p className="text-xs text-nowrap opacity-60">{location}</p>
           {/* <p className="text-sm opacity-80">{time}</p>
           <p className="text-sm opacity-80">{location}</p> */}
         </div>
       </div>
       <div className='flex flex-col gap-10 max-[380px]:gap-3'>
-        <p className='text-[10px] border border-[#ff5500] rounded-2xl px-1'>
+        <p className='text-[10px] py-1 border border-[#ff5500] rounded-2xl px-2'>
           Open To Anything
         </p>
         <button

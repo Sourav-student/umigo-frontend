@@ -1,23 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const GlowModeModal = ({ isOpen, onClose, onSave, setGlowEnabled }) => {
   const [formData, setFormData] = useState({
     vibe: '',
-    duration: '1 Hour',
+    duration: 60, // Store duration in minutes
+    durationDisplay: '1 Hour',
     discoverability: 'Public'
   });
 
   const [isVibe, setIsVibe] = useState(true);
+  const durationContainerRef = useRef(null);
 
-  const durations = ['30 Mins', '1 Hour', '1 Day'];
+  // Generate duration options: 5 min to 60 min in 5 min steps, then 2h to 24h in 1h steps
+  const durationOptions = [];
+  for (let i = 5; i <= 60; i += 5) {
+    durationOptions.push({
+      value: i,
+      label: i < 60 ? `${i} Min` : '1 Hour'
+    });
+  }
+  for (let i = 2; i <= 24; i++) {
+    durationOptions.push({
+      value: i * 60,
+      label: i === 1 ? '1 Hour' : `${i} Hours`
+    });
+  }
+
   const discoverabilityOptions = ['Public', 'Friends'];
 
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
+    if (field === 'duration') {
+      const selectedOption = durationOptions.find(opt => opt.value === value);
+      setFormData(prev => ({
+        ...prev,
+        duration: value,
+        durationDisplay: selectedOption?.label || '1 Hour'
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [field]: value
+      }));
+    }
   };
+
+  // Scroll to selected duration on mount
+  useEffect(() => {
+    if (durationContainerRef.current) {
+      const selectedElement = durationContainerRef.current.querySelector('.duration-option.selected');
+      if (selectedElement) {
+        selectedElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }, [isOpen]);
 
   const handleSave = () => {
     if (formData.vibe === '') {
@@ -82,19 +117,36 @@ const GlowModeModal = ({ isOpen, onClose, onSave, setGlowEnabled }) => {
               <label className="block text-sm font-medium text-gray-900 mb-2">
                 Duration
               </label>
-              <div className="flex gap-2">
-                {durations.map((duration) => (
-                  <button
-                    key={duration}
-                    onClick={() => handleInputChange('duration', duration)}
-                    className={`flex-1 px-4 py-3 rounded-lg border transition-colors ${formData.duration === duration
-                        ? 'bg-[#ff5500] text-white border-[#ff5500]'
-                        : 'bg-white text-gray-400 border-gray-300 hover:border-gray-400'
-                      }`}
-                  >
-                    {duration}
-                  </button>
-                ))}
+              <div className="relative">
+                <div 
+                  ref={durationContainerRef}
+                  className="h-26 overflow-y-auto rounded-lg p-2 scrollbar-hide"
+                  style={{
+                    scrollbarWidth: 'none',  /* Firefox */
+                    msOverflowStyle: 'none',  /* IE and Edge */
+                  }}
+                >
+                  <div className="space-y-1">
+                    {durationOptions.map((option) => (
+                      <div
+                        key={option.value}
+                        onClick={() => handleInputChange('duration', option.value)}
+                        className={`duration-option px-4 py-2 rounded-md cursor-pointer transition-colors text-center ${
+                          formData.duration === option.value
+                            ? ' bg-gradient-to-r from-white-500 via-white-500 to-white-500 text-[#ff5500]'
+                            : 'hover:bg-gray-100 text-gray-700'
+                        } ${formData.duration === option.value ? 'selected' : ''}`}
+                      >
+                        {option.label}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-white to-transparent pointer-events-none"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
+              </div>
+              <div className="mt-2 text-center text-sm text-gray-500">
+                Selected: {formData.durationDisplay}
               </div>
             </div>
 

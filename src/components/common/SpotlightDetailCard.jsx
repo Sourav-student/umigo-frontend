@@ -55,7 +55,7 @@ function SpotlightDetailCard({ user, onClose, onApproach, onChat, approach = fal
           <h3 className="text-xl font-bold text-gray-900 mb-1">{user.name || 'Mia Daniels'}</h3>
 
           {/* Status Badge */}
-          <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-50 text-orange-600 border border-orange-200 mb-6">
+          <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-orange-50 text-orange-600 border border-orange-200 mb-6">
             {user.note || 'Open to anything!'}
           </div>
 
