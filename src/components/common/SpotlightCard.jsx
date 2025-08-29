@@ -8,17 +8,27 @@ function SpotlightCard({
   location,
   onCardClick,
   onApproach,
+  approach = false,
   glow = false
 }) {
+
   const handleApproachClick = (e) => {
     e.stopPropagation();
     if (onApproach) {
       onApproach();
     }
-    toast.success(`Approach message sent to ${name}!`, {
-      position: 'top-center',
-      autoClose: 3000,
-    });
+
+    //   if (!approach) {
+    //     toast.success(`Approach message sent to ${name}!`, {
+    //       position: 'top-center',
+    //       autoClose: 3000,
+    //     });
+    //   } else {
+    //     toast.info(`You already approached ${name}.`, {
+    //       position: 'top-center',
+    //       autoClose: 2000,
+    //     });
+    //   }
   };
 
   const handleCardClick = (e) => {
@@ -31,9 +41,9 @@ function SpotlightCard({
     <div
       onClick={handleCardClick}
       // className={[
-        className='flex items-center justify-between gap-4 bg-white rounded-2xl py-2 px-4 cursor-pointer max-[380px]:max-w-[250px] max-[380px]:flex max-[380px]:flex-col max-[380px]:ml-[5%]'
-        // glow ? 'shadow-[0_0_24px_rgba(255,85,0,0.18)]' : ''
-      // ].join(' ')}
+      className='flex items-center justify-between gap-4 bg-white rounded-2xl py-2 px-4 cursor-pointer max-[380px]:max-w-[250px] max-[380px]:flex max-[380px]:flex-col max-[380px]:ml-[5%]'
+    // glow ? 'shadow-[0_0_24px_rgba(255,85,0,0.18)]' : ''
+    // ].join(' ')}
     >
       <div className="flex items-center gap-4">
         <img
@@ -54,9 +64,12 @@ function SpotlightCard({
         </p>
         <button
           onClick={handleApproachClick}
-          className="px-2 py-1 bg-[#ff5500] text-white rounded-xl hover:bg-[#e64d00] transition-colors z-10 cursor-pointer"
+          className={`px-2 py-1 rounded-xl transition-colors z-10 cursor-pointer ${approach
+            ? 'bg-gray-400 text-white cursor-not-allowed'
+            : 'bg-[#ff5500] text-white hover:bg-[#e64d00]'
+            }`}
         >
-          Approach
+          {approach ? 'Approached' : 'Approach'}
         </button>
       </div>
     </div>
