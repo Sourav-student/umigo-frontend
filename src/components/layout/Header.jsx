@@ -115,7 +115,7 @@ export default function Header() {
               <button
                 key={item.label}
                 onClick={() => handleNavItemClick(item)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${isActiveRoute(item.to)
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer ${isActiveRoute(item.to)
                   ? 'bg-[#FFE1CC] text-[#FF5500] shadow-md'
                   : 'hover:text-black hover:bg-[#ff5500]/10'
                   }`}
