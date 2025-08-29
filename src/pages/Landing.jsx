@@ -160,7 +160,6 @@ function Landing() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [itemsToShow, setItemsToShow] = useState(ITEMS_PER_PAGE);
-  const [join, setJoin] = useState(false);
 
   // Listen for glow mode changes
   useEffect(() => {
