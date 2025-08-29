@@ -4,7 +4,7 @@ function SpotlightCard({ avatarUrl, name, time, location, onApproach, glow = fal
   return (
     <div className={[
       'flex items-center justify-between gap-4 bg-white rounded-2xl p-4 shadow-sm',
-      glow ? 'ring-1 ring-[#ff5500]/30 shadow-[0_0_24px_rgba(255,85,0,0.25)]' : ''
+      glow ? 'shadow-[0_0_24px_rgba(255,85,0,0.25)]' : ''
     ].join(' ')}>
       <div className="flex items-center gap-4">
         <img

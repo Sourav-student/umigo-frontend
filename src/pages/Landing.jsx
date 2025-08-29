@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import SearchBar from '../components/common/SearchBar';
 import TabSwitcher from '../components/common/TabSwitcher';
 import SpotlightCard from '../components/common/SpotlightCard';
 import PlanCard from '../components/common/PlanCard';
 import PlanDetailCard from '../components/common/PlanDetailCard';
 import SpotlightDetailCard from '../components/common/SpotlightDetailCard';
-import Pagination from '../components/common/Pagination';
 import { toast } from 'react-toastify';
 import Footer from '../components/layout/Footer';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const sampleUsers = [
   { name: 'Mia', time: '4:00 PM', location: 'Central Park', avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop', note: 'Open to anything!' },
@@ -152,14 +152,35 @@ const samplePlans = [
 ];
 
 function Landing() {
+  const ITEMS_PER_PAGE = 9;
   const [query, setQuery] = useState('');
   const [activeTab, setActiveTab] = useState('Plans');
   const [glowEnabled, setGlowEnabled] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9; // Number of items to show per page
+  const [itemsToShow, setItemsToShow] = useState(ITEMS_PER_PAGE);
+
+  // Listen for glow mode changes
+  useEffect(() => {
+    const saved = localStorage.getItem('glowMode');
+    if (saved !== null) setGlowEnabled(JSON.parse(saved));
+    
+    const handleGlowModeChange = (e) => {
+      const newGlowState = e.detail;
+      setGlowEnabled(newGlowState);
+      
+      // If glow mode is turned off and we're on the Spotlight tab, switch to Plans
+      if (!newGlowState && activeTab === 'Spotlight') {
+        setActiveTab('Plans');
+      }
+    };
+    
+    window.addEventListener('glowModeChange', handleGlowModeChange);
+    return () => {
+      window.removeEventListener('glowModeChange', handleGlowModeChange);
+    };
+  }, [activeTab]);
 
   useEffect(() => {
     const saved = localStorage.getItem('glowMode');
@@ -183,34 +204,48 @@ function Landing() {
   }, [activeTab]);
 
   // Filter spotlight users by name
-  const filteredSpotlight = sampleUsers.filter(u => u.name.toLowerCase().includes(query.toLowerCase()));
+  const filteredSpotlight = React.useMemo(() => 
+    sampleUsers.filter(u => u.name.toLowerCase().includes(query.toLowerCase())),
+    [query]
+  );
   
   // Filter plans by name
-  const filteredPlans = query.trim() === '' 
-    ? samplePlans 
-    : samplePlans.filter(p => p.name.toLowerCase().includes(query.toLowerCase()));
+  const filteredPlans = React.useMemo(() => 
+    query.trim() === '' 
+      ? samplePlans 
+      : samplePlans.filter(p => p.name.toLowerCase().includes(query.toLowerCase())),
+    [query]
+  );
 
-  // Calculate pagination
-  const totalItems = activeTab === 'Plans' ? filteredPlans.length : filteredSpotlight.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-  
   // Get current items
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentPlans = useMemo(() => 
+    filteredPlans.slice(0, itemsToShow), 
+    [filteredPlans, itemsToShow]
+  );
   
-  const currentPlans = filteredPlans.slice(indexOfFirstItem, indexOfLastItem);
-  const currentSpotlight = filteredSpotlight.slice(indexOfFirstItem, indexOfLastItem);
-  
-  // Change page
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-  
-  // Reset to first page when tab or search changes
+  const currentSpotlight = useMemo(
+    () => filteredSpotlight.slice(0, itemsToShow),
+    [filteredSpotlight, itemsToShow]
+  );
+
+  // Load more items
+  const loadMore = useCallback(() => {
+    setItemsToShow(prev => prev + ITEMS_PER_PAGE);
+  }, []);
+
+  // Reset items when tab or search changes
   useEffect(() => {
-    setCurrentPage(1);
+    setItemsToShow(ITEMS_PER_PAGE);
   }, [activeTab, query]);
+
+  // Check if there are more items to load
+  const hasMore = useMemo(() => {
+    if (activeTab === 'Plans') {
+      return currentPlans.length < filteredPlans.length;
+    } else {
+      return currentSpotlight.length < filteredSpotlight.length;
+    }
+  }, [activeTab, currentPlans.length, filteredPlans.length, currentSpotlight.length, filteredSpotlight.length]);
 
   return (
     <div className="min-h-screen bg-[#f9f9f9] text-[#ff5500] flex flex-col">
@@ -224,124 +259,84 @@ function Landing() {
 
           {/* Tab Switcher - Centered */}
           <div className="flex justify-center">
-            <TabSwitcher active={activeTab} onChange={setActiveTab} />
+            <TabSwitcher 
+              active={activeTab} 
+              onChange={setActiveTab}
+              showSpotlight={glowEnabled}
+            />
           </div>
 
-          {/* Content Grid */}
+          {/* Content Grid with Infinite Scroll */}
           <div className="w-full">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-              {activeTab === 'Plans' ? (
-                currentPlans.map((p) => (
-                  <div 
-                    key={p.name} 
-                    className={`rounded-lg overflow-hidden transition-all duration-300 ease-out ${
-                      isTransitioning 
-                        ? 'opacity-0 translate-y-4 scale-95' 
-                        : 'opacity-100 translate-y-0 scale-100'
-                    }`}
-                  >
-                    <PlanCard
-                      glow={glowEnabled}
-                      bannerImage={p.bannerImage}
-                      avatarUrl={p.avatarUrl}
-                      name={p.name}
-                      subtitle={p.subtitle}
-                      time={p.time}
-                      location={p.location}
-                      onCardClick={() => setSelectedPlan(p)}
-                      className="shadow-none"
-                    />
-                  </div>
-                ))
-              ) : (
-                currentSpotlight.map((user) => (
-                  <div 
-                    key={user.name} 
-                    className={`rounded-lg overflow-hidden transition-all duration-300 ease-out max-md:flex max-md:flex-col max-md:items-center ${
-                      isTransitioning 
-                        ? 'opacity-0 translate-y-4 scale-95' 
-                        : 'opacity-100 translate-y-0 scale-100'
-                    }`}
-                  >
-                    <SpotlightCard
-                      glow={glowEnabled}
-                      avatarUrl={user.avatarUrl}
-                      name={user.name}
-                      time={user.time}
-                      location={user.location}
-                      onCardClick={() => setSelectedUser(user)}
-                      onApproach={() => {
-                        // This will be handled by the SpotlightCard component
-                      }}
-                      className="shadow-none"
-                    />
-                  </div>
-                ))
-              )}
-            </div>
-            
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="mt-8 flex justify-center items-center gap-2">
-                <button
-                  onClick={() => paginate(1)}
-                  disabled={currentPage === 1}
-                  className="px-4 py-2 bg-[#ff5500] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  «
-                </button>
-                <button
-                  onClick={() => paginate(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="px-4 py-2 bg-[#ff5500] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  ‹
-                </button>
-                
-                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                  // Show pages around current page
-                  let pageNum;
-                  if (totalPages <= 5) {
-                    pageNum = i + 1;
-                  } else if (currentPage <= 3) {
-                    pageNum = i + 1;
-                  } else if (currentPage >= totalPages - 2) {
-                    pageNum = totalPages - 4 + i;
-                  } else {
-                    pageNum = currentPage - 2 + i;
-                  }
-                  
-                  return (
-                    <button
-                      key={pageNum}
-                      onClick={() => paginate(pageNum)}
-                      className={`w-10 h-10 rounded-lg ${
-                        currentPage === pageNum
-                          ? 'bg-[#ff5500] text-white'
-                          : 'bg-white text-[#ff5500] hover:bg-gray-100'
+            <InfiniteScroll
+              dataLength={activeTab === 'Plans' ? currentPlans.length : currentSpotlight.length}
+              next={loadMore}
+              hasMore={hasMore}
+              loader={
+                <div className="flex justify-center py-4">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#ff5500]"></div>
+                </div>
+              }
+              endMessage={
+                <p className="text-center text-gray-500 py-4">
+                  {activeTab === 'Plans' && currentPlans.length > 0 ? "You've seen all plans!" : 
+                   currentSpotlight.length > 0 ? "You've seen all spotlight users!" : 
+                   "No items to display"}
+                </p>
+              }
+              className="w-full"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+              {!glowEnabled && activeTab === 'Spotlight' ? (
+                <div className="col-span-3 text-center py-12">
+                  <p className="text-lg text-gray-600 mb-4">Enable Glow Mode to view Spotlight</p>
+                  <p className="text-sm text-gray-500">Click the Glow Mode button in the header to see who's nearby</p>
+                </div>
+              ) : activeTab === 'Plans' 
+                ? currentPlans.map((p) => (
+                    <div 
+                      key={`${p.name}-${p.time}`} 
+                      className={`rounded-lg overflow-hidden transition-all duration-300 ease-out ${
+                        isTransitioning 
+                          ? 'opacity-0 translate-y-4 scale-95' 
+                          : 'opacity-100 translate-y-0 scale-100'
                       }`}
                     >
-                      {pageNum}
-                    </button>
-                  );
-                })}
-                
-                <button
-                  onClick={() => paginate(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className="px-4 py-2 bg-[#ff5500] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  ›
-                </button>
-                <button
-                  onClick={() => paginate(totalPages)}
-                  disabled={currentPage === totalPages}
-                  className="px-4 py-2 bg-[#ff5500] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  »
-                </button>
+                      <PlanCard
+                        glow={glowEnabled}
+                        bannerImage={p.bannerImage}
+                        avatarUrl={p.avatarUrl}
+                        name={p.name}
+                        subtitle={p.subtitle}
+                        time={p.time}
+                        location={p.location}
+                        onCardClick={() => setSelectedPlan(p)}
+                      />
+                    </div>
+                  ))
+                : currentSpotlight.map((user) => (
+                    <div 
+                      key={`${user.name}-${user.time}`} 
+                      className={`rounded-lg overflow-hidden transition-all duration-300 ease-out ${
+                        isTransitioning 
+                          ? 'opacity-0 translate-y-4 scale-95' 
+                          : 'opacity-100 translate-y-0 scale-100'
+                      }`}
+                    >
+                      <SpotlightCard
+                        glow={glowEnabled}
+                        avatarUrl={user.avatarUrl}
+                        name={user.name}
+                        time={user.time}
+                        location={user.location}
+                        note={user.note}
+                        onCardClick={() => setSelectedUser(user)}
+                      />
+                    </div>
+                  ))
+              }
               </div>
-            )}
+            </InfiniteScroll>
           </div>
         </div>
       </main>
