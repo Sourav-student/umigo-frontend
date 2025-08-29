@@ -30,10 +30,10 @@ function SpotlightCard({
   return (
     <div
       onClick={handleCardClick}
-      className={[
-        'flex items-center justify-between gap-4 bg-white rounded-2xl py-2 px-4 border border-stone-300 cursor-pointer max-md:w-[500px] max-[550px]:max-w-[350px] max-[380px]:max-w-[250px] max-[380px]:flex max-[380px]:flex-col',
-        glow ? 'shadow-[0_0_24px_rgba(255,85,0,0.18)]' : ''
-      ].join(' ')}
+      // className={[
+        className='flex items-center justify-between gap-4 bg-white rounded-2xl py-2 px-4 cursor-pointer max-[380px]:max-w-[250px] max-[380px]:flex max-[380px]:flex-col max-[380px]:ml-[5%]'
+        // glow ? 'shadow-[0_0_24px_rgba(255,85,0,0.18)]' : ''
+      // ].join(' ')}
     >
       <div className="flex items-center gap-4">
         <img
@@ -42,19 +42,19 @@ function SpotlightCard({
           className="h-24 w-24 rounded-full object-cover"
         />
         <div className="text-[#1b1b1b] text-left">
-          <h3 className="text-lg font-medium">{name}</h3>
-          <p className="text-xs text-nowrap opacity-80">Central Park</p>
+          <h3 className="text-lg font-bold">{name}</h3>
+          <p className="text-xs text-nowrap opacity-60">Central Park</p>
           {/* <p className="text-sm opacity-80">{time}</p>
           <p className="text-sm opacity-80">{location}</p> */}
         </div>
       </div>
-      <div className='flex flex-col gap-22 max-[380px]:gap-3'>
-        <p className='text-sm border border-[#ff5500] rounded-2xl px-1'>
+      <div className='flex flex-col gap-10 max-[380px]:gap-3'>
+        <p className='text-[10px] border border-[#ff5500] rounded-2xl px-1'>
           Open To Anything
         </p>
         <button
           onClick={handleApproachClick}
-          className="px-2 py-1 bg-[#ff5500] text-white rounded-xl hover:bg-[#e64d00] transition-colors z-10"
+          className="px-2 py-1 bg-[#ff5500] text-white rounded-xl hover:bg-[#e64d00] transition-colors z-10 cursor-pointer"
         >
           Approach
         </button>

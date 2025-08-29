@@ -109,7 +109,7 @@ const samplePlans = [
     location: 'Juhu Beach',
     bannerImage: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop',
     avatarUrl: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=200&auto=format&fit=crop'
-  },{
+  }, {
     name: 'Riya Mehta',
     subtitle: 'Karaoke Night',
     time: '9:00 PM Today',
@@ -160,22 +160,23 @@ function Landing() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [itemsToShow, setItemsToShow] = useState(ITEMS_PER_PAGE);
+  const [join, setJoin] = useState(false);
 
   // Listen for glow mode changes
   useEffect(() => {
     const saved = localStorage.getItem('glowMode');
     if (saved !== null) setGlowEnabled(JSON.parse(saved));
-    
+
     const handleGlowModeChange = (e) => {
       const newGlowState = e.detail;
       setGlowEnabled(newGlowState);
-      
+
       // If glow mode is turned off and we're on the Spotlight tab, switch to Plans
       if (!newGlowState && activeTab === 'Spotlight') {
         setActiveTab('Plans');
       }
     };
-    
+
     window.addEventListener('glowModeChange', handleGlowModeChange);
     return () => {
       window.removeEventListener('glowModeChange', handleGlowModeChange);
@@ -194,7 +195,7 @@ function Landing() {
   useEffect(() => {
     // Start transition when tab changes
     setIsTransitioning(true);
-    
+
     // End transition after animation completes
     const timer = setTimeout(() => {
       setIsTransitioning(false);
@@ -204,25 +205,25 @@ function Landing() {
   }, [activeTab]);
 
   // Filter spotlight users by name
-  const filteredSpotlight = React.useMemo(() => 
+  const filteredSpotlight = React.useMemo(() =>
     sampleUsers.filter(u => u.name.toLowerCase().includes(query.toLowerCase())),
     [query]
   );
-  
+
   // Filter plans by name
-  const filteredPlans = React.useMemo(() => 
-    query.trim() === '' 
-      ? samplePlans 
+  const filteredPlans = React.useMemo(() =>
+    query.trim() === ''
+      ? samplePlans
       : samplePlans.filter(p => p.name.toLowerCase().includes(query.toLowerCase())),
     [query]
   );
 
   // Get current items
-  const currentPlans = useMemo(() => 
-    filteredPlans.slice(0, itemsToShow), 
+  const currentPlans = useMemo(() =>
+    filteredPlans.slice(0, itemsToShow),
     [filteredPlans, itemsToShow]
   );
-  
+
   const currentSpotlight = useMemo(
     () => filteredSpotlight.slice(0, itemsToShow),
     [filteredSpotlight, itemsToShow]
@@ -237,6 +238,16 @@ function Landing() {
   useEffect(() => {
     setItemsToShow(ITEMS_PER_PAGE);
   }, [activeTab, query]);
+
+  //when click on join
+  const [joinedPlans, setJoinedPlans] = useState({});
+
+  const handleJoin = (planName) => {
+    setJoinedPlans((prev) => ({
+      ...prev,
+      [planName]: !prev[planName]
+    }));
+  };
 
   // Check if there are more items to load
   const hasMore = useMemo(() => {
@@ -259,8 +270,8 @@ function Landing() {
 
           {/* Tab Switcher - Centered */}
           <div className="flex justify-center">
-            <TabSwitcher 
-              active={activeTab} 
+            <TabSwitcher
+              active={activeTab}
               onChange={setActiveTab}
               showSpotlight={glowEnabled}
             />
@@ -279,30 +290,30 @@ function Landing() {
               }
               endMessage={
                 <p className="text-center text-gray-500 py-4">
-                  {activeTab === 'Plans' && currentPlans.length > 0 ? "You've seen all plans!" : 
-                   currentSpotlight.length > 0 ? "You've seen all spotlight users!" : 
-                   "No items to display"}
+                  {activeTab === 'Plans' && currentPlans.length > 0 ? "You've seen all plans!" :
+                    currentSpotlight.length > 0 ? "You've seen all spotlight users!" :
+                      "No items to display"}
                 </p>
               }
               className="w-full"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-              {!glowEnabled && activeTab === 'Spotlight' ? (
-                <div className="col-span-3 text-center py-12">
-                  <p className="text-lg text-gray-600 mb-4">Enable Glow Mode to view Spotlight</p>
-                  <p className="text-sm text-gray-500">Click the Glow Mode button in the header to see who's nearby</p>
-                </div>
-              ) : activeTab === 'Plans' 
-                ? currentPlans.map((p) => (
-                    <div 
-                      key={`${p.name}-${p.time}`} 
-                      className={`rounded-lg overflow-hidden transition-all duration-300 ease-out ${
-                        isTransitioning 
-                          ? 'opacity-0 translate-y-4 scale-95' 
-                          : 'opacity-100 translate-y-0 scale-100'
-                      }`}
+                {!glowEnabled && activeTab === 'Spotlight' ? (
+                  <div className="col-span-3 text-center py-12">
+                    <p className="text-lg text-gray-600 mb-4">Enable Glow Mode to view Spotlight</p>
+                    <p className="text-sm text-gray-500">Click the Glow Mode button in the header to see who's nearby</p>
+                  </div>
+                ) : activeTab === 'Plans'
+                  ? currentPlans.map((p) => (
+                    <div
+                      key={`${p.name}-${p.time}`}
+                      className={`rounded-lg overflow-hidden transition-all duration-300 ease-out ${isTransitioning
+                        ? 'opacity-0 translate-y-4 scale-95'
+                        : 'opacity-100 translate-y-0 scale-100'
+                        }`}
                     >
                       <PlanCard
+                        key={`${p.name}-${p.time}`}
                         glow={glowEnabled}
                         bannerImage={p.bannerImage}
                         avatarUrl={p.avatarUrl}
@@ -310,18 +321,19 @@ function Landing() {
                         subtitle={p.subtitle}
                         time={p.time}
                         location={p.location}
+                        join={!!joinedPlans[p.name]}
+                        onJoin={() => handleJoin(p.name)}
                         onCardClick={() => setSelectedPlan(p)}
                       />
                     </div>
                   ))
-                : currentSpotlight.map((user) => (
-                    <div 
-                      key={`${user.name}-${user.time}`} 
-                      className={`rounded-lg overflow-hidden transition-all duration-300 ease-out ${
-                        isTransitioning 
-                          ? 'opacity-0 translate-y-4 scale-95' 
-                          : 'opacity-100 translate-y-0 scale-100'
-                      }`}
+                  : currentSpotlight.map((user) => (
+                    <div
+                      key={`${user.name}-${user.time}`}
+                      className={`rounded-lg overflow-hidden transition-all duration-300 ease-out ${isTransitioning
+                        ? 'opacity-0 translate-y-4 scale-95'
+                        : 'opacity-100 translate-y-0 scale-100'
+                        }`}
                     >
                       <SpotlightCard
                         glow={glowEnabled}
@@ -334,7 +346,7 @@ function Landing() {
                       />
                     </div>
                   ))
-              }
+                }
               </div>
             </InfiniteScroll>
           </div>
@@ -352,16 +364,18 @@ function Landing() {
           plan={selectedPlan}
           onClose={() => setSelectedPlan(null)}
           onApproach={() => {
-            toast.success(`Approach request sent to ${selectedPlan?.name}!`);
+            // toast.success(`Approach request sent to ${selectedPlan?.name}!`);
             setSelectedPlan(null);
           }}
           onChat={() => {
             toast.info(`Chat with ${selectedPlan?.name} coming soon!`);
             setSelectedPlan(null);
           }}
+          join={!!joinedPlans[selectedPlan.name]}
+          onJoin={() => handleJoin(selectedPlan.name)}
         />
       )}
-      
+
       {selectedUser && (
         <SpotlightDetailCard
           user={selectedUser}

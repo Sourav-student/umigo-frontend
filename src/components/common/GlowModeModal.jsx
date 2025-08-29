@@ -7,6 +7,8 @@ const GlowModeModal = ({ isOpen, onClose, onSave, setGlowEnabled }) => {
     discoverability: 'Public'
   });
 
+  const [isVibe, setIsVibe] = useState(true);
+
   const durations = ['30 Mins', '1 Hour', '1 Day'];
   const discoverabilityOptions = ['Public', 'Friends'];
 
@@ -19,13 +21,14 @@ const GlowModeModal = ({ isOpen, onClose, onSave, setGlowEnabled }) => {
 
   const handleSave = () => {
     if (formData.vibe === '') {
-      alert("Fill vibe");
+      setIsVibe(false);
       return;
     }
-    
+
     setGlowEnabled(prev => !prev);
     onSave?.(formData);
     onClose();
+    setIsVibe(true);
   };
 
   if (!isOpen) return null;
@@ -71,6 +74,7 @@ const GlowModeModal = ({ isOpen, onClose, onSave, setGlowEnabled }) => {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent placeholder-gray-400"
                 required
               />
+              {isVibe || formData.vibe !== ''? "" : <p className='text-red-500'>Fill vibe first, It is mandatory</p>}
             </div>
 
             {/* Duration Section */}
@@ -124,7 +128,7 @@ const GlowModeModal = ({ isOpen, onClose, onSave, setGlowEnabled }) => {
             {/* Save Button */}
             <button
               onClick={handleSave}
-              className="text-2xl w-fit bg-[#ff5500] text-white py-2 px-10 rounded-2xl hover:bg-[#e64d00] transition-colors font-medium mt-6"
+              className="text-2xl w-fit bg-[#ff5500] text-white py-2 px-10 rounded-2xl hover:bg-[#e64d00] transition-colors font-medium mt-6 cursor-pointer"
             >
               Save
             </button>

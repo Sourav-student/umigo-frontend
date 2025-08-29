@@ -17,8 +17,8 @@ function TabSwitcher({ active = 'Plans', onChange, showSpotlight = false }) {
             onClick={() => onChange?.(tab)}
             className={[
               showSpotlight 
-                ? "w-[170px] max-[380px]:w-auto flex-1 sm:flex-none px-4 py-2 font-semibold transition-all focus:outline-none rounded-xl"
-                : "px-16 py-2 font-semibold transition-all focus:outline-none rounded-xl w-full text-center",
+                ? "w-[170px] max-[380px]:w-auto flex-1 sm:flex-none px-4 py-2 font-semibold transition-all focus:outline-none rounded-xl cursor-pointer"
+                : "px-16 py-2 font-semibold transition-all focus:outline-none rounded-xl w-full text-center cursor-pointer",
               isActive
                 ? "bg-[#ff550032] text-[#ff5500] shadow-sm"
                 : "text-[#000000] hover:bg-[#fff0e9]"
