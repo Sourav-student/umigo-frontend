@@ -60,9 +60,9 @@ const Login = () => {
   };
 
   return (
-    <div className="flex w-full items-center justify-center min-[1080px]:justify-around pt-16 px-4">
+    <div className="flex w-full items-center justify-center min-[1080px]:justify-evenly pt-16 px-4">
       {/* Left Side Video */}
-      <div className="hidden min-[1080px]:flex items-center justify-center">
+      <div className="hidden min-[1080px]:flex items-center justify-center bg-black">
         <video src="./loginVideo.mp4" autoPlay loop muted className="w-[450px]"></video>
       </div>
 

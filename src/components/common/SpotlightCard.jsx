@@ -32,7 +32,7 @@ function SpotlightCard({
       onClick={handleCardClick}
       className={[
         'flex items-center justify-between gap-4 bg-white rounded-2xl py-2 px-4 border border-stone-300 cursor-pointer max-md:w-[500px] max-[550px]:max-w-[350px] max-[380px]:max-w-[250px] max-[380px]:flex max-[380px]:flex-col',
-        glow ? 'ring-1 ring-[#ff5500]/30' : ''
+        glow ? 'shadow-[0_0_24px_rgba(255,85,0,0.18)]' : ''
       ].join(' ')}
     >
       <div className="flex items-center gap-4">

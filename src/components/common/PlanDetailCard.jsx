@@ -17,7 +17,7 @@ function PlanDetailCard({ plan, onClose, onApproach, onChat }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center p-4 cursor-pointer" onClick={onClose}>
+    <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center p-4" onClick={onClose}>
       <div
         className="w-full max-w-[360px] bg-white rounded-2xl shadow-lg overflow-hidden"
         onClick={(e) => e.stopPropagation()}
@@ -26,7 +26,7 @@ function PlanDetailCard({ plan, onClose, onApproach, onChat }) {
         <div className="p-4 flex items-center justify-start">
           <button
             onClick={onClose}
-            className="text-gray-700 p-2 rounded-full hover:bg-gray-100 cursor-pointer"
+            className="text-gray-700 p-2 rounded-full hover:bg-gray-100"
             aria-label="Back"
           >
             <IoArrowBack className="w-5 h-5" />
@@ -50,7 +50,7 @@ function PlanDetailCard({ plan, onClose, onApproach, onChat }) {
               className="w-full h-full rounded-full object-cover border-4 border-white shadow-md"
             />
             {/* Name */}
-            <div className=" relative left-[120px] bottom-[60px] flex items-center text-stone-900 text-xl text-nowrap">
+            <div className=" relative left-[140px] bottom-[50px] flex items-center text-stone-900 text-xl text-nowrap">
               <span>{plan.name || 'Selmon Bhai'}</span>
             </div>
           </div>
@@ -65,14 +65,14 @@ function PlanDetailCard({ plan, onClose, onApproach, onChat }) {
 
           {/* Event Details */}
           <div className="space-y-2 mb-8">
-            <h3 className="text-xl text-gray-900 mt-6 mb-2 flex justify-start items-center font-semibold"><BsFilm className="w-5 h-5 mr-3 text-gray-500" />{plan.subtitle}</h3>
-            <div className="flex items-center text-gray-400">
+            <h3 className="text-xl text-gray-900 mt-6 mb-2 flex justify-start items-center font-semibold"><BsFilm className="w-5 h-5 mr-3 text-gray-500"/>{plan.subtitle}</h3>
+            <div className="flex items-center text-gray-700">
               <BsClock className="w-5 h-5 mr-3 text-gray-500" />
               <span>{plan.time}</span>
             </div>
-            <div className=" text-gray-400 flex items-center gap-1">
-              <span role="img" aria-label="place">📍</span>
-              <span className='opacity-80 text-sm'>{plan.location}</span>
+            <div className="flex items-center text-gray-700">
+              <IoLocation className="w-5 h-5 mr-3 text-red-500" />
+              <span>{plan.location}</span>
             </div>
           </div>
 
