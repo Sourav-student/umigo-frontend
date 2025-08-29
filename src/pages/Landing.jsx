@@ -248,6 +248,16 @@ function Landing() {
     }));
   };
 
+  //when click on approach
+  const [approachPeople, setApproachPeople] = useState({});
+  const handleApproach = (planName) => {
+    setApproachPeople((prev) => ({
+      ...prev,
+      [planName]: !prev[planName]
+    }));
+  };
+
+
   // Check if there are more items to load
   const hasMore = useMemo(() => {
     if (activeTab === 'Plans') {
@@ -341,6 +351,8 @@ function Landing() {
                         time={user.time}
                         location={user.location}
                         note={user.note}
+                        approach={!!approachPeople[user.name]}
+                        onApproach={() => handleApproach(user.name)}
                         onCardClick={() => setSelectedUser(user)}
                       />
                     </div>
@@ -379,11 +391,10 @@ function Landing() {
         <SpotlightDetailCard
           user={selectedUser}
           onClose={() => setSelectedUser(null)}
+          approach={!!approachPeople[selectedUser.name]}
           onApproach={() => {
-            toast.success(`Approach message sent to ${selectedUser.name}!`, {
-              position: 'top-center',
-              autoClose: 3000,
-            });
+            handleApproach(selectedUser.name);
+            setSelectedUser(null);
           }}
           onChat={() => {
             toast.info('Chat coming soon');

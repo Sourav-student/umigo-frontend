@@ -109,7 +109,7 @@ const SignUp = () => {
                 required
                 value={formData.name}
                 onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-lg bg-white text-[#ff5500] placeholder-orange-300 focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent ${errors.name ? 'border-red-500' : 'border-[#ff5500]/40'}`}
+                className={`w-full px-3 py-2 border rounded-lg bg-white text-[#ff5500] placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent ${errors.name ? 'border-red-500' : 'border-[#ff5500]/40'}`}
                 placeholder="Enter your full name"
               />
               {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name}</p>}
@@ -124,7 +124,7 @@ const SignUp = () => {
                 required
                 value={formData.email}
                 onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-lg bg-white text-[#ff5500] placeholder-orange-300 focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent ${errors.email ? 'border-red-500' : 'border-[#ff5500]/40'}`}
+                className={`w-full px-3 py-2 border rounded-lg bg-white text-[#ff5500] placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent ${errors.email ? 'border-red-500' : 'border-[#ff5500]/40'}`}
                 placeholder="Enter your email address"
               />
               {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
@@ -139,7 +139,7 @@ const SignUp = () => {
                 required
                 value={formData.password}
                 onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-lg bg-white text-[#ff5500] placeholder-orange-300 focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent ${errors.password ? 'border-red-500' : 'border-[#ff5500]/40'}`}
+                className={`w-full px-3 py-2 border rounded-lg bg-white text-[#ff5500] placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent ${errors.password ? 'border-red-500' : 'border-[#ff5500]/40'}`}
                 placeholder="Create a strong password"
               />
               {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password}</p>}
@@ -154,7 +154,7 @@ const SignUp = () => {
                 required
                 value={formData.confirmPassword}
                 onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-lg bg-white text-[#ff5500] placeholder-orange-300 focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent ${errors.confirmPassword ? 'border-red-500' : 'border-[#ff5500]/40'}`}
+                className={`w-full px-3 py-2 border rounded-lg bg-white text-[#ff5500] placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent ${errors.confirmPassword ? 'border-red-500' : 'border-[#ff5500]/40'}`}
                 placeholder="Confirm your password"
               />
               {errors.confirmPassword && <p className="text-red-600 text-sm mt-1">{errors.confirmPassword}</p>}
@@ -174,7 +174,7 @@ const SignUp = () => {
                   required
                   value={formData.mobile}
                   onChange={handleInputChange}
-                  className={`w-full pl-12 pr-3 py-2 border rounded-lg bg-white text-[#ff5500] placeholder-orange-300 focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent ${
+                  className={`w-full pl-12 pr-3 py-2 border rounded-lg bg-white text-[#ff5500] placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent ${
                     errors.mobile ? 'border-red-500' : 'border-[#ff5500]/40'
                   }`}
                   placeholder="Enter 10-digit mobile number"
