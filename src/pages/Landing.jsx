@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { useSearch } from '../context/SearchContext';
 import SearchBar from '../components/common/SearchBar';
 import TabSwitcher from '../components/common/TabSwitcher';
 import SpotlightCard from '../components/common/SpotlightCard';
@@ -155,13 +156,14 @@ const samplePlans = [
 function Landing() {
   const ITEMS_PER_PAGE = 9;
   const [query, setQuery] = useState('');
-  const [activeTab, setActiveTab] = useState('Plans');
+  const [activeTab, setActiveTab] = useState('plans');
+  const { showSearch } = useSearch();
   const [glowEnabled, setGlowEnabled] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [itemsToShow, setItemsToShow] = useState(ITEMS_PER_PAGE);
-
+  
   // Initialize glow mode and set initial tab
   useEffect(() => {
     const saved = localStorage.getItem('glowMode');
@@ -278,9 +280,15 @@ function Landing() {
       {/* Main Content */}
       <main className="flex-1 px-4 py-6 pb-20 md:pb-6">
         <div className="max-w-7xl mx-auto space-y-6">
-          {/* Search Bar - Fixed width container */}
-          <div className="w-full">
-            <SearchBar value={query} onChange={setQuery} />
+          {/* Search Bar - Fixed width container with smooth transition */}
+          <div 
+            className={`w-full transition-all duration-300 ease-in-out overflow-hidden ${
+              showSearch ? 'max-h-20 opacity-100' : 'max-h-0 opacity-0'
+            }`}
+          >
+            <div className="py-2">
+              <SearchBar value={query} onChange={setQuery} />
+            </div>
           </div>
 
           {/* Tab Switcher - Centered */}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 // import { useAuth } from '../../context/AuthContext';
+import { useSearch } from '../../context/SearchContext';
 import CreatePostModal from '../common/CreatePostModal';
 import GlowModeModal from '../common/GlowModeModal';
 import logo from '../../assets/images/logo.jpg';
@@ -10,6 +11,8 @@ import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { FaLandMineOn, FaRegUser } from "react-icons/fa6";
+import { IoSearch } from "react-icons/io5";
+
 
 
 const navItems = [
@@ -25,6 +28,7 @@ export default function Header() {
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
   const [isGlowModeModalOpen, setIsGlowModeModalOpen] = useState(false);
   const [glowBtnVisible, setGlowBtnVisible] = useState(false);
+  const { openSearch, closeSearch, showSearch } = useSearch();
   // const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -94,6 +98,13 @@ export default function Header() {
     }
     return location.pathname.startsWith(itemTo);
   };
+  const toggleSearch = () => {
+    if (showSearch) {
+      closeSearch();
+    } else {
+      openSearch();
+    }
+  }
 
   return (
     <>
@@ -122,12 +133,13 @@ export default function Header() {
               >
                 <div className='text-2xl'>{item.icon}</div>
                 <span>{item.label}</span>
+                 
               </button>
             ))}
-          </nav>
-
+            </nav>
           {/* Right icons + auth + glow toggle */}
           <div className="flex items-center gap-4">
+           
             {/* Authentication status */}
             {/* {isAuthenticated ? (
               <div className="flex items-center gap-3">
@@ -149,6 +161,10 @@ export default function Header() {
             )} */}
 
             {/* Glow switch for home screen*/}
+            <IoSearch 
+              className='text-2xl cursor-pointer text-gray-600 hover:text-[#FF5500] transition-colors' 
+              onClick={toggleSearch} 
+            />
             {
               glowBtnVisible ?
                 <div
@@ -162,7 +178,7 @@ export default function Header() {
                     'relative h-6 w-14 rounded-full transition-colors cursor-pointer shrink-0 flex items-center px-1',
                     glowEnabled ? 'bg-[#ff5500]' : 'bg-gray-200'
                   ].join(' ')}
-                >
+                > 
                   <span
                     className={[
                       'h-4 w-4 rounded-full bg-white shadow-sm transition-transform',
@@ -205,7 +221,7 @@ export default function Header() {
         isOpen={isCreatePostModalOpen}
         onClose={() => setIsCreatePostModalOpen(false)}
       />
-
+      
       {/* GlowMode Modal */}
       <GlowModeModal
         isOpen={isGlowModeModalOpen}
