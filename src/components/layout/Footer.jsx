@@ -44,7 +44,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gray-800 text-white ">
+    <footer className="bg-gray-800 text-white pb-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 items-center">
           {/* Brand Section */}
@@ -161,20 +161,20 @@ const Footer = () => {
 
         {/* Bottom Section */}
         <div className="border-t border-gray-700 mt-6 md:mt-8 pt-6 md:pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-center md:text-left text-sm md:text-base mb-3 md:mb-0">
+          <div className="flex flex-col md:flex-row justify-around items-center text-xs">
+            <p className="text-gray-400 text-center md:text-left md:mb-0">
               © {currentYear} Umigo. All Rights Reserved.
             </p>
             <div className="flex space-x-4 md:space-x-6">
               <a
                 href="/privacy-policy"
-                className="text-gray-400 hover:text-[#ff5500] transition-colors duration-200 text-xs md:text-sm"
+                className="text-gray-400 hover:text-[#ff5500] transition-colors duration-200"
               >
                 Privacy Policy
               </a>
               <a
                 href="/terms-conditions"
-                className="text-gray-400 hover:text-[#ff5500] transition-colors duration-200 text-xs md:text-sm"
+                className="text-gray-400 hover:text-[#ff5500] transition-colors duration-200"
               >
                 Terms & Conditions
               </a>

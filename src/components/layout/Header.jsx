@@ -121,25 +121,25 @@ export default function Header() {
           </NavLink>
 
           {/* Center nav (desktop only) */}
-          <nav className="hidden md:flex items-center gap-6 text-black font-bold">
+          <nav className="hidden md:flex items-center gap-6 text-black">
             {navItems.map(item => (
               <button
                 key={item.label}
                 onClick={() => handleNavItemClick(item)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer ${isActiveRoute(item.to)
-                  ? 'bg-[#FFE1CC] text-[#FF5500] shadow-md'
+                  ? 'bg-[#FFE1CC] text-[#FF5500] shadow-md font-bold'
                   : 'hover:text-black hover:bg-[#ff5500]/10'
                   }`}
               >
                 <div className='text-2xl'>{item.icon}</div>
                 <span>{item.label}</span>
-                 
+
               </button>
             ))}
-            </nav>
+          </nav>
           {/* Right icons + auth + glow toggle */}
           <div className="flex items-center gap-4">
-           
+
             {/* Authentication status */}
             {/* {isAuthenticated ? (
               <div className="flex items-center gap-3">
@@ -161,9 +161,9 @@ export default function Header() {
             )} */}
 
             {/* Glow switch for home screen*/}
-            <IoSearch 
-              className='text-2xl cursor-pointer text-gray-600 hover:text-[#FF5500] transition-colors' 
-              onClick={toggleSearch} 
+            <IoSearch
+              className='text-2xl cursor-pointer text-gray-600 hover:text-[#FF5500] transition-colors'
+              onClick={toggleSearch}
             />
             {
               glowBtnVisible ?
@@ -178,7 +178,7 @@ export default function Header() {
                     'relative h-6 w-14 rounded-full transition-colors cursor-pointer shrink-0 flex items-center px-1',
                     glowEnabled ? 'bg-[#ff5500]' : 'bg-gray-200'
                   ].join(' ')}
-                > 
+                >
                   <span
                     className={[
                       'h-4 w-4 rounded-full bg-white shadow-sm transition-transform',
@@ -196,23 +196,21 @@ export default function Header() {
       </header>
 
       {/* Mobile bottom nav */}
-      <nav className="md:hidden fixed bottom-2 left-0 right-0 z-40">
-        <div className="mx-auto max-w-5xl px-4">
-          <div className="rounded-3xl bg-white border border-[#ff5500]/20 shadow-sm flex items-center justify-between px-2 py-1">
-            {navItems.map(item => (
-              <button
-                key={item.label}
-                onClick={() => handleNavItemClick(item)}
-                className={`flex flex-col items-center text-black justify-center gap-1 px-4 py-2 text-lg rounded-3xl transition-all duration-200 ${isActiveRoute(item.to)
-                  ? 'bg-[#FFE1CC] text-[#FF5500] shadow-md'
-                  : 'hover:text-black hover:bg-[#ff5500]/10'
-                  }`}
-              >
-                {item.icon}
-                {/* <span className="text-xs">{item.label}</span> */}
-              </button>
-            ))}
-          </div>
+      <nav className="w-[100vw] md:hidden fixed bottom-0 left-0 right-0 z-40">
+        <div className="w-full px-3 bg-white border border-[#ff5500]/20 shadow-sm flex items-center justify-between py-1">
+          {navItems.map(item => (
+            <button
+              key={item.label}
+              onClick={() => handleNavItemClick(item)}
+              className={`flex flex-col items-center text-black justify-center gap-1 px-4 py-2 text-lg rounded-3xl transition-all duration-200 ${isActiveRoute(item.to)
+                ? 'bg-[#FFE1CC] text-[#FF5500] shadow-md'
+                : 'hover:text-black hover:bg-[#ff5500]/10'
+                }`}
+            >
+              {item.icon}
+              {/* <span className="text-xs">{item.label}</span> */}
+            </button>
+          ))}
         </div>
       </nav>
 
@@ -221,7 +219,7 @@ export default function Header() {
         isOpen={isCreatePostModalOpen}
         onClose={() => setIsCreatePostModalOpen(false)}
       />
-      
+
       {/* GlowMode Modal */}
       <GlowModeModal
         isOpen={isGlowModeModalOpen}

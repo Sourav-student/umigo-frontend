@@ -67,7 +67,7 @@ const Login = () => {
       </div>
 
       {/* Right Side Form */}
-      <div className="w-full md:w-1/2 bg-[#f9f9f9] text-[#ff5500] flex items-center justify-center max-[1080px]:p-8 max-[1080px]:pt-17">
+      <div className="w-full min-[1080px]:w-1/4 bg-[#f9f9f9] text-[#ff5500] flex items-center justify-center max-[1080px]:p-8 max-[1080px]:pt-17">
         <div className="max-w-md w-full space-y-8">
           <div>
             <h2 className="text-center text-2xl font-extrabold mb-2">Welcome Back</h2>

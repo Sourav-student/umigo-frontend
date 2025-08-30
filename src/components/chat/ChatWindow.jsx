@@ -184,10 +184,10 @@ const ChatWindow = ({ selectedChat, onBack, isMobile }) => {
                 </span>
 
                 {/* Message tail */}
-                <div className={`absolute top-1/2 transform -translate-y-1/2 w-3 h-3 ${msg.sender === 'me'
+                {/* <div className={`absolute top-1/2 transform -translate-y-1/2 w-3 h-3 ${msg.sender === 'me'
                   ? '-right-1 bg-[#ffc59b] rotate-45'
                   : '-left-1 bg-white border-l border-b border-gray-200 rotate-45'
-                  }`}></div>
+                  }`}></div> */}
               </div>
             </div>
           </div>

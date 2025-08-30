@@ -10,7 +10,7 @@ const GlowModeModal = ({ isOpen, onClose, onSave, setGlowEnabled }) => {
     discoverability: 'Public'
   });
 
-  const [isVibe, setIsVibe] = useState(true);
+  // const [isVibe, setIsVibe] = useState(true);
   const durationContainerRef = useRef(null);
 
   // Generate duration options: 5 min to 60 min in 5 min steps, then 2h to 24h in 1h steps
@@ -102,10 +102,10 @@ const GlowModeModal = ({ isOpen, onClose, onSave, setGlowEnabled }) => {
     const newErrors = {};
     let isValid = true;
 
-    if (!formData.vibe.trim()) {
-      newErrors.vibe = 'Please select a vibe';
-      isValid = false;
-    }
+    // if (!formData.vibe.trim()) {
+    //   newErrors.vibe = 'Please select a vibe';
+    //   isValid = false;
+    // }
 
     if (!formData.duration) {
       newErrors.duration = 'Please select a duration';
@@ -249,7 +249,7 @@ const GlowModeModal = ({ isOpen, onClose, onSave, setGlowEnabled }) => {
           <button
             type="button"
             onClick={handleSave}
-            className="w-full bg-[#ff5500] text-white py-3 px-6 rounded-lg font-medium text-lg hover:bg-[#e64d00] transition-colors"
+            className="w-full bg-[#ff5500] text-white py-3 px-6 rounded-lg font-medium text-lg hover:bg-[#e64d00] transition-colors cursor-pointer"
           >
             Save
           </button>

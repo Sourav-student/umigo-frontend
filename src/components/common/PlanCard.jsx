@@ -62,14 +62,14 @@ function PlanCard({
       <div className="w-full p-4 pt-14 flex justify-between">
         <div>
           {subtitle && (
-            <div className="mt-3 text-[#1c1c1c] flex items-center font-bold gap-2">
-              <span role="img" aria-label="place">🛒</span>
+            <div className="mt-3 text-[#1c1c1c] flex items-center font-bold text-xl gap-2">
+              {/* <span role="img" aria-label="place">🛒</span> */}
               <span>{subtitle}</span>
             </div>
           )}
           {location && (
             <div className=" text-[#1c1c1c] flex items-center gap-1">
-              <span role="img" aria-label="place">📍</span>
+              {/* <span role="img" aria-label="place">📍</span> */}
               <span className='opacity-60 text-sm'>{location}</span>
             </div>
           )
