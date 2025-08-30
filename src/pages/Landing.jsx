@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import Footer from '../components/layout/Footer';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
+
 const sampleUsers = [
   { name: 'Mia', time: '4:00 PM', location: 'Central Park', avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop', note: 'Open to anything!' },
   { name: 'Jia', time: '7:00 PM', location: 'PVR Cinepolis', avatarUrl: 'https://images.unsplash.com/photo-1544006659-f0b21884ce1d?q=80&w=400&auto=format&fit=crop' },
@@ -368,6 +369,7 @@ function Landing() {
           </div>
         </div>
       </main>
+
 
       {/* Footer - Positioned at bottom */}
       <footer className="mt-auto border-t border-[#ff5500]/10">

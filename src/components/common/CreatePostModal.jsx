@@ -1,34 +1,151 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const CreatePostModal = ({ isOpen, onClose }) => {
+  const modalRef = useRef(null);
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+
+  // Handle click outside
+  const handleClickOutside = useCallback((event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      onClose();
+    }
+  }, [onClose]);
+
+  // Handle escape key press
+  const handleEscapeKey = useCallback((event) => {
+    if (event.key === 'Escape') {
+      onClose();
+    }
+  }, [onClose]);
+
+  // Handle browser back button
+  const handlePopState = useCallback(() => {
+    onClose();
+  }, [onClose]);
+
+  useEffect(() => {
+    if (isOpen) {
+      // Add event listeners when modal is open
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleEscapeKey);
+      window.addEventListener('popstate', handlePopState);
+      
+      // Push a new state to the history to detect back button press
+      window.history.pushState({ modalOpen: true }, '');
+    }
+
+    // Cleanup function to remove event listeners
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscapeKey);
+      window.removeEventListener('popstate', handlePopState);
+      
+      // If the modal is closing and the current state has modalOpen, go back
+      if (isOpen && window.history.state?.modalOpen) {
+        window.history.back();
+      }
+    };
+  }, [isOpen, handleClickOutside, handleEscapeKey, handlePopState]);
+
   const [formData, setFormData] = useState({
     plan: '',
     location: '',
-    vibe: '',
-    privacy: '',
-    date: '',
     time: ''
   });
 
-  const [showVibeDropdown, setShowVibeDropdown] = useState(false);
-  const [showPrivacyDropdown, setShowPrivacyDropdown] = useState(false);
-  const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
 
-  const vibes = ['Chill', 'Lit', 'Aesthetic', 'Music', 'Sports'];
-  const privacyOptions = ['Public', 'Private', 'My People'];
+  const validateField = (name, value) => {
+    let error = '';
+    if (!value.trim()) {
+      error = 'This field is required';
+    } else if (name === 'time' && !/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value)) {
+      error = 'Please enter a valid time (HH:MM)';
+    }
+    return error;
+  };
 
   const handleInputChange = (field, value) => {
+    // Update field value
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
+
+    // Validate field if it's been touched
+    if (touched[field]) {
+      const error = validateField(field, value);
+      setErrors(prev => ({
+        ...prev,
+        [field]: error
+      }));
+    }
   };
 
-  const handleSubmit = () => {
+  const handleBlur = (field) => (e) => {
+    // Mark field as touched
+    if (!touched[field]) {
+      setTouched(prev => ({
+        ...prev,
+        [field]: true
+      }));
+    }
+
+    // Validate field
+    const error = validateField(field, formData[field]);
+    setErrors(prev => ({
+      ...prev,
+      [field]: error
+    }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    let isValid = true;
+    
+    // Validate all fields
+    Object.keys(formData).forEach(field => {
+      const error = validateField(field, formData[field]);
+      if (error) {
+        newErrors[field] = error;
+        isValid = false;
+      }
+    });
+    
+    setErrors(newErrors);
+    
+    // Mark all fields as touched to show errors
+    const allTouched = {};
+    Object.keys(formData).forEach(field => {
+      allTouched[field] = true;
+    });
+    setTouched(allTouched);
+    
+    return isValid;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
     console.log('Form submitted:', formData);
-    // Handle form submission here
+    // Here you would typically make an API call to save the data
+    // For example: await api.createPost(formData);
+    
     onClose();
+  };
+  
+  // Handle Enter key press in form fields
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSubmit(e);
+    }
   };
 
   const formatDate = (dateString) => {
@@ -61,8 +178,15 @@ const CreatePostModal = ({ isOpen, onClose }) => {
       />
       
       {/* Modal */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-lg shadow-2xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
+      <form 
+        onSubmit={handleSubmit}
+        className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      >
+        <div 
+          ref={modalRef}
+          className="bg-white rounded-lg shadow-2xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto"
+          onClick={(e) => e.stopPropagation()}
+        >
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-gray-200">
             <button
@@ -85,8 +209,14 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                 placeholder="What's the plan..."
                 value={formData.plan}
                 onChange={(e) => handleInputChange('plan', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent placeholder-gray-400"
+                onBlur={handleBlur('plan')}
+                onKeyDown={handleKeyDown}
+                className={`w-full px-4 py-3 border ${errors.plan && touched.plan ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent placeholder-gray-400`}
+                required
               />
+              {errors.plan && touched.plan && (
+                <p className="mt-1 text-sm text-red-600">{errors.plan}</p>
+              )}
             </div>
 
             {/* Location */}
@@ -96,8 +226,13 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                 placeholder="Location"
                 value={formData.location}
                 onChange={(e) => handleInputChange('location', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent placeholder-gray-400 pr-10"
+                onBlur={handleBlur('location')}
+                className={`w-full px-4 py-3 border ${errors.location && touched.location ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent placeholder-gray-400 pr-10`}
+                required
               />
+              {errors.location && touched.location && (
+                <p className="mt-1 text-sm text-red-600">{errors.location}</p>
+              )}
               <svg className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
@@ -207,8 +342,11 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg text-left focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent bg-white"
               >
                 <span className={formData.time ? 'text-gray-900' : 'text-gray-400'}>
-                  {formData.time ? formatTime(formData.time) : 'Time'}
+                  {formData.time ? formatTime(formData.time) : 'Select Time'}
                 </span>
+                {errors.time && touched.time && (
+                  <p className="mt-1 text-sm text-red-600">{errors.time}</p>
+                )}
                 <svg className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
@@ -221,9 +359,13 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                     value={formData.time}
                     onChange={(e) => {
                       handleInputChange('time', e.target.value);
-                      setShowTimePicker(false);
+                      if (e.target.value) {
+                        setShowTimePicker(false);
+                      }
                     }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent"
+                    onBlur={handleBlur('time')}
+                    className={`w-full px-3 py-2 border ${errors.time && touched.time ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent`}
+                    required
                   />
                 </div>
               )}
@@ -231,14 +373,14 @@ const CreatePostModal = ({ isOpen, onClose }) => {
 
             {/* Post Button */}
             <button
-              onClick={handleSubmit}
+              type="submit"
               className="text-2xl w-fit bg-[#ff5500] text-white py-2 px-10 rounded-2xl hover:bg-[#e64d00] transition-colors font-medium mt-6"
             >
               Post
             </button>
           </div>
         </div>
-      </div>
+      </form>
     </>
   );
 };
