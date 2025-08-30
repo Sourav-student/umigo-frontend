@@ -127,6 +127,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
   };
 
   const handleSubmit = (e) => {
+    
     e.preventDefault();
     
     if (!validateForm()) {
