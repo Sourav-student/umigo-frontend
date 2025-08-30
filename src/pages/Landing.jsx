@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { useSearch } from '../context/SearchContext';
+import { useCommon } from '../context/CommonContext';
 import SearchBar from '../components/common/SearchBar';
 import TabSwitcher from '../components/common/TabSwitcher';
 import SpotlightCard from '../components/common/SpotlightCard';
@@ -157,29 +157,22 @@ function Landing() {
   const ITEMS_PER_PAGE = 9;
   const [query, setQuery] = useState('');
   const [activeTab, setActiveTab] = useState('plans');
-  const { showSearch } = useSearch();
-  const [glowEnabled, setGlowEnabled] = useState(false);
+  const { glowEnabled, setGlowMode, showSearch } = useCommon();
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [itemsToShow, setItemsToShow] = useState(ITEMS_PER_PAGE);
   
-  // Initialize glow mode and set initial tab
+  // Set initial tab
   useEffect(() => {
-    const saved = localStorage.getItem('glowMode');
-    if (saved !== null) {
-      const savedGlowState = JSON.parse(saved);
-      setGlowEnabled(savedGlowState);
-      // Set initial tab based on saved glow mode state
-      setActiveTab(savedGlowState ? 'Spotlight' : 'Plans');
-    }
+    // Any tab initialization logic can go here
   }, []);
 
   // Handle glow mode changes and update tab accordingly
   useEffect(() => {
     const handleGlowModeChange = (e) => {
       const newGlowState = e.detail;
-      setGlowEnabled(newGlowState);
+      setGlowMode(newGlowState);
       // Always switch tab when glow mode changes
       setActiveTab(newGlowState ? 'Spotlight' : 'Plans');
     };
@@ -188,16 +181,7 @@ function Landing() {
     return () => {
       window.removeEventListener('glowModeChange', handleGlowModeChange);
     };
-  }, []);
-
-  useEffect(() => {
-    const saved = localStorage.getItem('glowMode');
-    if (saved !== null) setGlowEnabled(JSON.parse(saved));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('glowMode', JSON.stringify(glowEnabled));
-  }, [glowEnabled]);
+  }, [setGlowMode]);
 
   useEffect(() => {
     // Start transition when tab changes

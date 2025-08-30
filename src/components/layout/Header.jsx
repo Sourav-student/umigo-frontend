@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
-// import { useAuth } from '../../context/AuthContext';
-import { useSearch } from '../../context/SearchContext';
+import { useCommon } from '../../context/CommonContext';
+import { useAuth } from '../../context/AuthContext';
 import CreatePostModal from '../common/CreatePostModal';
 import GlowModeModal from '../common/GlowModeModal';
 import logo from '../../assets/images/logo.jpg';
@@ -24,44 +24,38 @@ const navItems = [
 ];
 
 export default function Header() {
-  const [glowEnabled, setGlowEnabled] = useState(false);
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
   const [isGlowModeModalOpen, setIsGlowModeModalOpen] = useState(false);
-  const [glowBtnVisible, setGlowBtnVisible] = useState(false);
-  const { openSearch, closeSearch, showSearch } = useSearch();
-  // const { isAuthenticated, user, logout } = useAuth();
+  const { 
+    showSearch, 
+    toggleSearch, 
+    closeSearch,
+    glowEnabled,
+    glowBtnVisible,
+    toggleGlowMode,
+    setGlowMode,
+    setGlowButtonVisibility
+  } = useCommon();
+  const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     const saved = localStorage.getItem('glowMode');
-    if (saved !== null) setGlowEnabled(JSON.parse(saved));
+    if (saved !== null) {
+      const glowMode = JSON.parse(saved);
+      document.documentElement.classList.toggle('glow-mode', glowMode);
+    }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('glowMode', JSON.stringify(glowEnabled));
-    // Notify pages listening for glow changes
-    window.dispatchEvent(new CustomEvent('glowModeChange', { detail: glowEnabled }));
+    document.documentElement.classList.toggle('glow-mode', glowEnabled);
   }, [glowEnabled]);
 
+  // Make glow button always visible
   useEffect(() => {
-    // show glow button only on home page
-    if (location.pathname === "/") {
-      setGlowBtnVisible(true);
-    } else {
-      setGlowBtnVisible(false);
-    }
-  }, [location.pathname]);
-
-  // const handleLogout = async () => {
-  //   try {
-  //     await logout();
-  //     navigate('/');
-  //   } catch (error) {
-  //     console.error('Logout error:', error);
-  //     navigate('/');
-  //   }
-  // };
+    setGlowButtonVisibility(true);
+  }, []);
 
   const handleNavItemClick = (item) => {
     if (item.action === 'create-post') {
@@ -71,24 +65,11 @@ export default function Header() {
     }
   };
 
-  const handleGlowToggle = () => {
-    // const newGlowState = !glowEnabled;
-    // setGlowEnabled(newGlowState);
-
-    // If enabling glow mode and modal not shown yet
-    if (!glowEnabled) {
-      setIsGlowModeModalOpen(true);
-    }
-
-    if (glowEnabled) {
-      setGlowEnabled(false);
-    }
-  };
-
   const handleGlowModeSave = (glowData) => {
     console.log('GlowMode settings saved:', glowData);
-    // You can handle the glow mode settings here
-    // For now, just keep the glow enabled
+    // Enable glow mode after successful submission
+    setGlowMode(true);
+    setIsGlowModeModalOpen(false);
   };
 
   const isActiveRoute = (itemTo) => {
@@ -98,13 +79,6 @@ export default function Header() {
     }
     return location.pathname.startsWith(itemTo);
   };
-  const toggleSearch = () => {
-    if (showSearch) {
-      closeSearch();
-    } else {
-      openSearch();
-    }
-  }
 
   return (
     <>
@@ -158,13 +132,16 @@ export default function Header() {
               >
                 Login
               </NavLink>
-            )} */}
+            )}  */}
 
             {/* Glow switch for home screen*/}
-            <IoSearch 
-              className='text-2xl cursor-pointer text-gray-600 hover:text-[#FF5500] transition-colors' 
-              onClick={toggleSearch} 
-            />
+            <button 
+              className='text-2xl cursor-pointer text-gray-600 hover:text-[#FF5500] transition-colors'
+              onClick={toggleSearch}
+              aria-label="Search"
+            >
+              <IoSearch />
+            </button>
             {
               glowBtnVisible ?
                 <div
@@ -172,8 +149,23 @@ export default function Header() {
                   aria-checked={glowEnabled}
                   aria-label="Enable glow mode"
                   tabIndex={0}
-                  onClick={handleGlowToggle}
-                  onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && handleGlowToggle()}
+                  onClick={() => {
+                    if (!glowEnabled) {
+                      setIsGlowModeModalOpen(true);
+                    } else {
+                      toggleGlowMode();
+                    }
+                  }}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      if (!glowEnabled) {
+                        setIsGlowModeModalOpen(true);
+                      } else {
+                        toggleGlowMode();
+                      }
+                    }
+                  }}
                   className={[
                     'relative h-6 w-14 rounded-full transition-colors cursor-pointer shrink-0 flex items-center px-1',
                     glowEnabled ? 'bg-[#ff5500]' : 'bg-gray-200'
@@ -221,13 +213,13 @@ export default function Header() {
         isOpen={isCreatePostModalOpen}
         onClose={() => setIsCreatePostModalOpen(false)}
       />
-      
-      {/* GlowMode Modal */}
+
+      {/* Glow Mode Modal */}
       <GlowModeModal
         isOpen={isGlowModeModalOpen}
         onClose={() => setIsGlowModeModalOpen(false)}
         onSave={handleGlowModeSave}
-        setGlowEnabled={setGlowEnabled}
+        setGlowEnabled={setGlowMode}
       />
     </>
   );
