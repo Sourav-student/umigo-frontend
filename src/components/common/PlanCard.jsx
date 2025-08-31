@@ -78,9 +78,9 @@ function PlanCard({
         {/* Join button */}
         <button
           onClick={handleJoinClick}
-          className={`h-fit px-4 py-2 mt-5 transition-colors rounded-xl whitespace-nowrap z-10 cursor-pointer ${join
-              ? "bg-[#909090] text-white hover:bg-[#575757]"
-              : "bg-[#ff5500] text-white hover:bg-[#e64d00]"
+          className={`h-fit px-4 py-2 mt-5 rounded-xl whitespace-nowrap z-10 cursor-pointer transition-all duration-300 ${join
+              ? 'bg-white text-[#ff5500] border border-[#ff5500] cursor-not-allowed'
+              : 'bg-[#ff5500] text-white hover:bg-[#e64d00]'
             }`}
         >
           {join ? "Requested" : "Join"}

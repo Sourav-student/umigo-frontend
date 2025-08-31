@@ -58,15 +58,15 @@ function SpotlightCard({
           <p className="text-sm opacity-80">{location}</p> */}
         </div>
       </div>
-      <div className='flex flex-col gap-7 max-[380px]:gap-3'>
+      <div className='flex flex-col gap-7 max-[380px]:gap-3 items-end'>
         <p className='text-[8px] w-fit py-1 border border-[#ff5500] rounded-2xl px-2 bg-[#ff5500]/10 font-bold'>
           Open To Anything
         </p>
         <button
           onClick={handleApproachClick}
-          className={`px-2 py-1 rounded-xl transition-colors z-10 cursor-pointer text-lg ${approach
-            ? 'bg-[#ff5500]/10 text-[#ff5500] border border-[#ff5500] cursor-not-allowed'
-            : 'bg-[#ff5500] text-white hover:bg-[#e64d00]'
+          className={`px-2 py-1 rounded-xl z-10 cursor-pointer text-lg transition-all duration-300 ${approach
+              ? 'bg-white text-[#ff5500] border border-[#ff5500] cursor-not-allowed'
+              : 'bg-[#ff5500] text-white hover:bg-[#e64d00]'
             }`}
         >
           {approach ? 'Approached' : 'Approach'}
