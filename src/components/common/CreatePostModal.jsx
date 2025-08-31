@@ -31,7 +31,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
       document.addEventListener('mousedown', handleClickOutside);
       document.addEventListener('keydown', handleEscapeKey);
       window.addEventListener('popstate', handlePopState);
-      
+
       // Push a new state to the history to detect back button press
       window.history.pushState({ modalOpen: true }, '');
     }
@@ -41,7 +41,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleEscapeKey);
       window.removeEventListener('popstate', handlePopState);
-      
+
       // If the modal is closing and the current state has modalOpen, go back
       if (isOpen && window.history.state?.modalOpen) {
         window.history.back();
@@ -104,7 +104,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
   const validateForm = () => {
     const newErrors = {};
     let isValid = true;
-    
+
     // Validate all fields
     Object.keys(formData).forEach(field => {
       const error = validateField(field, formData[field]);
@@ -113,34 +113,34 @@ const CreatePostModal = ({ isOpen, onClose }) => {
         isValid = false;
       }
     });
-    
+
     setErrors(newErrors);
-    
+
     // Mark all fields as touched to show errors
     const allTouched = {};
     Object.keys(formData).forEach(field => {
       allTouched[field] = true;
     });
     setTouched(allTouched);
-    
+
     return isValid;
   };
 
   const handleSubmit = (e) => {
-    
+
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     console.log('Form submitted:', formData);
     // Here you would typically make an API call to save the data
     // For example: await api.createPost(formData);
-    
+
     onClose();
   };
-  
+
   // Handle Enter key press in form fields
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
@@ -152,10 +152,10 @@ const CreatePostModal = ({ isOpen, onClose }) => {
   const formatDate = (dateString) => {
     if (!dateString) return '';
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric', 
-      year: 'numeric' 
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
     });
   };
 
@@ -173,17 +173,17 @@ const CreatePostModal = ({ isOpen, onClose }) => {
   return (
     <>
       {/* Backdrop overlay */}
-      <div 
+      <div
         className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
         onClick={onClose}
       />
-      
+
       {/* Modal */}
-      <form 
+      <form
         onSubmit={handleSubmit}
         className="fixed inset-0 z-50 flex items-center justify-center p-4"
       >
-        <div 
+        <div
           ref={modalRef}
           className="bg-white rounded-lg shadow-2xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
@@ -194,8 +194,8 @@ const CreatePostModal = ({ isOpen, onClose }) => {
               onClick={onClose}
               className="text-gray-400 hover:text-gray-600 transition-colors"
             >
-           
-              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 19l-7-7 7-7"/><path d="M6 12h12"/></svg>
+
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 19l-7-7 7-7" /><path d="M6 12h12" /></svg>
             </button>
             <h2 className="text-lg font-semibold text-gray-900">Make a Plan</h2>
             <div className="w-6"></div> {/* Spacer for centering */}
@@ -337,7 +337,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
 
             {/* Time */}
             <div className="relative">
-              <button
+              {/* <button
                 type="button"
                 onClick={() => setShowTimePicker(!showTimePicker)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg text-left focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent bg-white"
@@ -345,15 +345,28 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                 <span className={formData.time ? 'text-gray-900' : 'text-gray-400'}>
                   {formData.time ? formatTime(formData.time) : 'Select Time'}
                 </span>
+                
                 {errors.time && touched.time && (
                   <p className="mt-1 text-sm text-red-600">{errors.time}</p>
                 )}
                 <svg className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
-              </button>
-              
-              {showTimePicker && (
+              </button> */}
+              <input
+                type="time"
+                value={formData.time}
+                onChange={(e) => {
+                  handleInputChange('time', e.target.value);
+                  // if (e.target.value) {
+                  //   setShowTimePicker(false);
+                  // }
+                }}
+                onBlur={handleBlur('time')}
+                className={`w-full px-3 py-2 border ${errors.time && touched.time ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent`}
+                required
+              />
+              {/* {showTimePicker && (
                 <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg p-4">
                   <input
                     type="time"
@@ -369,7 +382,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                     required
                   />
                 </div>
-              )}
+              )} */}
             </div>
 
             {/* Post Button */}

@@ -67,10 +67,13 @@ const Login = () => {
       </div>
 
       {/* Right Side Form */}
-      <div className="w-full md:w-1/2 bg-[#f9f9f9] text-[#ff5500] flex items-center justify-center max-[1080px]:p-8 max-[1080px]:pt-17">
-        <div className="max-w-md w-full space-y-8">
+      <div className="w-full min-[1080px]:w-1/2 text-[#ff5500] flex items-center justify-center max-[1080px]:p-8 max-[1080px]:pt-17">
+        <div className="max-w-sm w-full bg-[#ededed] p-6 space-y-8 border border-gray-400 rounded-2xl py-5 shadow-lg">
           <div>
-            <h2 className="text-center text-2xl font-extrabold mb-2">Welcome Back</h2>
+            <div className="flex justify-center items-center gap-3 py-4">
+              <img src="/logo.jpg" alt="Umigo" className="w-10 rounded-lg" />
+              <span className="text-xl font-semibold">Umigo</span>
+            </div>
             <p className="text-center opacity-80 text-black">Sign in to your Umigo account</p>
           </div>
 
@@ -134,7 +137,7 @@ const Login = () => {
             </div>
 
             <div>
-              <button type="submit" disabled={isLoading} className="w-full h-12 rounded-xl bg-[#ff5500] text-white font-semibold disabled:opacity-50">
+              <button type="submit" disabled={isLoading} className="w-full h-12 rounded-xl bg-[#ff5500] text-white font-semibold disabled:opacity-50 cursor-pointer">
                 {isLoading ? 'Signing In...' : 'Sign In'}
               </button>
             </div>
@@ -142,7 +145,7 @@ const Login = () => {
             <div className="text-center">
               <p className="opacity-80">
                 <span className="text-black">Don't have an account?</span>{' '}
-                <button type="button" onClick={() => navigate("/signup")} className="text-[#ff5500] hover:text-[#e64d00] transition-colors duration-200">
+                <button type="button" onClick={() => navigate("/signup")} className="text-[#ff5500] hover:text-[#e64d00] transition-colors duration-200 cursor-pointer">
                   Sign up here
                 </button>
               </p>

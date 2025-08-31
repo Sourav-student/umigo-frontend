@@ -62,14 +62,14 @@ function PlanCard({
       <div className="w-full p-4 pt-14 flex justify-between">
         <div>
           {subtitle && (
-            <div className="mt-3 text-[#1c1c1c] flex items-center font-bold gap-2">
-              <span role="img" aria-label="place">🛒</span>
+            <div className="mt-3 text-[#1c1c1c] flex items-center font-bold text-xl gap-2">
+              {/* <span role="img" aria-label="place">🛒</span> */}
               <span>{subtitle}</span>
             </div>
           )}
           {location && (
             <div className=" text-[#1c1c1c] flex items-center gap-1">
-              <span role="img" aria-label="place">📍</span>
+              {/* <span role="img" aria-label="place">📍</span> */}
               <span className='opacity-60 text-sm'>{location}</span>
             </div>
           )
@@ -78,9 +78,9 @@ function PlanCard({
         {/* Join button */}
         <button
           onClick={handleJoinClick}
-          className={`h-fit px-4 py-2 mt-5 transition-colors rounded-xl whitespace-nowrap z-10 cursor-pointer ${join
-              ? "bg-[#909090] text-white hover:bg-[#575757]"
-              : "bg-[#ff5500] text-white hover:bg-[#e64d00]"
+          className={`h-fit px-4 py-2 mt-5 rounded-xl whitespace-nowrap z-10 cursor-pointer transition-all duration-300 ${join
+              ? 'bg-white text-[#ff5500] border border-[#ff5500] cursor-not-allowed'
+              : 'bg-[#ff5500] text-white hover:bg-[#e64d00]'
             }`}
         >
           {join ? "Requested" : "Join"}

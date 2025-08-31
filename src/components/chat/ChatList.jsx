@@ -120,15 +120,15 @@ const ChatList = ({ onSelectChat, selectedChatId, isMobile }) => {
 
   const filteredChats = chats.filter(chat => {
     // Filter by search query first
-    const matchesSearch = 
+    const matchesSearch =
       chat.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       chat.lastMessage.toLowerCase().includes(searchQuery.toLowerCase());
-    
+
     // Then filter by active tab
     if (activeTab === 'All') return matchesSearch;
     if (activeTab === 'Unread') return matchesSearch && chat.unreadCount > 0;
     if (activeTab === 'Read') return matchesSearch && chat.unreadCount === 0;
-    
+
     return matchesSearch;
   });
 
@@ -141,7 +141,7 @@ const ChatList = ({ onSelectChat, selectedChatId, isMobile }) => {
       {/* Header */}
       <div className="p-4 border-b border-gray-200">
         <h1 className="text-xl font-semibold text-gray-900 mb-3">Messaging</h1>
-        
+
         {/* Search Bar */}
         <div className="relative">
           <input
@@ -149,7 +149,7 @@ const ChatList = ({ onSelectChat, selectedChatId, isMobile }) => {
             placeholder="Search messages"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent placeholder:text-gray-500"
           />
           <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -178,11 +178,10 @@ const ChatList = ({ onSelectChat, selectedChatId, isMobile }) => {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`py-3 px-1 text-sm font-medium border-b-2 ${
-                activeTab === tab
-                  ? 'border-[#ff5500] text-[#ff5500]'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
+              className={`py-3 px-1 text-sm font-medium border-b-2 ${activeTab === tab
+                ? 'border-[#ff5500] text-[#ff5500]'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
             >
               {tab}
               {tab === 'Unread' && (
@@ -201,9 +200,8 @@ const ChatList = ({ onSelectChat, selectedChatId, isMobile }) => {
           <div
             key={chat.id}
             onClick={() => handleChatSelect(chat)}
-            className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${
-              selectedChatId === chat.id ? 'bg-blue-50 border-l-4 border-l-[#ff5500]' : ''
-            }`}
+            className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${selectedChatId === chat.id ? 'bg-blue-50 border-l-4 border-l-[#ff5500]' : ''
+              }`}
           >
             <div className="flex items-start gap-3">
               {/* Avatar */}
@@ -216,28 +214,37 @@ const ChatList = ({ onSelectChat, selectedChatId, isMobile }) => {
                 {chat.isOnline && (
                   <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
                 )}
-                
+
               </div>
 
               {/* Chat Info */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-1">
                   <h3 className="font-medium text-gray-900 truncate">{chat.name}</h3>
-                  <span className="text-xs text-gray-500 flex-shrink-0 ml-2">{chat.timestamp}</span>
+                  {/* <span className="text-xs text-gray-500 flex-shrink-0 ml-2">{chat.timestamp}</span> */}
                 </div>
                 <p className="text-sm text-gray-600 text-left line-clamp-2 leading-relaxed">{chat.lastMessage}</p>
               </div>
 
-              {/* Options */}
-              <button className="p-1 text-gray-400 hover:text-gray-600 flex-shrink-0">
-                {chat.unreadCount > 0 && (
-                  <div className="mt-2">
-                    <span className="inline-flex items-center justify-center w-5 h-5 bg-[#ff5500] text-white text-xs rounded-full">
-                      {chat.unreadCount}
-                    </span>
-                  </div>
-                )}
-              </button>
+              <div className='flex flex-col items-center justify-center gap-5'>
+                {/* Options */}
+                <button className="text-gray-400 hover:text-gray-600 flex-shrink-0">
+                  {chat.unreadCount > 0 ? (
+                    <div>
+                      <span className="inline-flex items-center justify-center w-5 h-5 bg-[#ff5500] text-white text-xs rounded-full">
+                        {chat.unreadCount}
+                      </span>
+                    </div>
+                  ) :
+                    <div>
+                      <span className="inline-flex items-center justify-center w-5 h-5 text-white text-xs rounded-full">
+                      </span>
+                    </div>
+                  }
+                </button>
+                <span className="text-xs text-gray-500 flex-shrink-0 ml-2">{chat.timestamp}
+                </span>
+              </div>
             </div>
           </div>
         ))}
