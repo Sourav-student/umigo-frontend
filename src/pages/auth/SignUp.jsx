@@ -85,11 +85,14 @@ const SignUp = () => {
   };
 
   return (
-    <div className=" bg-[#f9f9f9] text-[#ff5500] flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className=" bg-[#f9f9f9] text-[#ff5500] flex items-center justify-center py-14 md:py-0 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-sm space-y-8 border border-gray-500 m-3 p-6 rounded-2xl shadow-lg">
         <div>
-          <h2 className="text-center text-2xl font-extrabold mb-2">Create New Account</h2>
-          <p className="text-center opacity-80 text-black">Join Umigo and start connecting with others</p>
+          <div className="flex justify-center items-center gap-3 py-4">
+            <img src="/logo.jpg" alt="Umigo" className="w-10 rounded-lg" />
+            <span className="text-xl font-semibold">Umigo</span>
+          </div>
+          <p className="text-center opacity-80 text-black">Create New Account and start connecting with others</p>
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -174,9 +177,8 @@ const SignUp = () => {
                   required
                   value={formData.mobile}
                   onChange={handleInputChange}
-                  className={`w-full pl-12 pr-3 py-2 border rounded-lg bg-white text-[#ff5500] placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent ${
-                    errors.mobile ? 'border-red-500' : 'border-[#ff5500]/40'
-                  }`}
+                  className={`w-full pl-12 pr-3 py-2 border rounded-lg bg-white text-[#ff5500] placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent ${errors.mobile ? 'border-red-500' : 'border-[#ff5500]/40'
+                    }`}
                   placeholder="Enter 10-digit mobile number"
                   maxLength="10"
                 />
@@ -186,7 +188,7 @@ const SignUp = () => {
           </div>
 
           <div>
-            <button type="submit" disabled={isLoading} className="w-full h-12 rounded-xl bg-[#ff5500] text-white font-semibold disabled:opacity-50">
+            <button type="submit" disabled={isLoading} className="w-full h-12 rounded-xl bg-[#ff5500] text-white font-semibold disabled:opacity-50 cursor-pointer">
               {isLoading ? 'Creating Account...' : 'Create Account'}
             </button>
           </div>
@@ -194,7 +196,7 @@ const SignUp = () => {
           <div className="text-center">
             <p className="opacity-80">
               <span className='text-black'>Already have an account?</span>{' '}
-              <button type="button" onClick={() => navigate('/login')} className="text-[#ff5500] hover:text-[#e64d00] transition-colors duration-200">
+              <button type="button" onClick={() => navigate('/login')} className="text-[#ff5500] hover:text-[#e64d00] transition-colors duration-200 cursor-pointer">
                 Sign in here
               </button>
             </p>
