@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authAPI } from '../../services/authService';
 import { toast } from 'react-toastify';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -15,6 +16,8 @@ const SignUp = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const countWords = (text) => {
     const trimmed = text.trim();
@@ -71,7 +74,7 @@ const SignUp = () => {
       const response = await authAPI.register({
         name: formData.name.trim(),
         email: formData.email.trim(),
-        mobile: formData.mobile.trim(),
+        phone_no: formData.mobile.trim(),
         password: formData.password,
       });
       console.log('Registration successful:', response);
@@ -92,7 +95,7 @@ const SignUp = () => {
             <img src="/logo.jpg" alt="Umigo" className="w-10 rounded-lg" />
             <span className="text-xl font-semibold">Umigo</span>
           </div>
-          <p className="text-center opacity-80 text-black">Create New Account and start connecting with others</p>
+          <p className="text-center opacity-80 text-black text-[17px]">Create new account and start connecting with others</p>
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -133,34 +136,52 @@ const SignUp = () => {
               {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
             </div>
 
-            <div>
-              {/* <label htmlFor="password" className="block text-sm font-semibold mb-2">Password</label> */}
+            <div className="relative">
               <input
                 id="password"
                 name="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 required
                 value={formData.password}
                 onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-lg bg-white text-[#ff5500] placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent ${errors.password ? 'border-red-500' : 'border-[#ff5500]/40'}`}
+                className={`w-full px-3 py-2 border rounded-lg bg-white text-[#ff5500] placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent ${errors.password ? "border-red-500" : "border-[#ff5500]/40"
+                  }`}
                 placeholder="Create a strong password"
               />
-              {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password}</p>}
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+              {errors.password && (
+                <p className="text-red-600 text-sm mt-1">{errors.password}</p>
+              )}
             </div>
 
-            <div>
-              {/* <label htmlFor="confirmPassword" className="block text-sm font-semibold mb-2">Confirm Password</label> */}
+            <div className="relative mt-3">
               <input
                 id="confirmPassword"
                 name="confirmPassword"
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 required
                 value={formData.confirmPassword}
                 onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-lg bg-white text-[#ff5500] placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent ${errors.confirmPassword ? 'border-red-500' : 'border-[#ff5500]/40'}`}
+                className={`w-full px-3 py-2 border rounded-lg bg-white text-[#ff5500] placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#ff5500] focus:border-transparent ${errors.confirmPassword ? "border-red-500" : "border-[#ff5500]/40"
+                  }`}
                 placeholder="Confirm your password"
               />
-              {errors.confirmPassword && <p className="text-red-600 text-sm mt-1">{errors.confirmPassword}</p>}
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+              >
+                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+              {errors.confirmPassword && (
+                <p className="text-red-600 text-sm mt-1">{errors.confirmPassword}</p>
+              )}
             </div>
 
             {/* Mobile Number */}

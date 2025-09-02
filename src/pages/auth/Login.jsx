@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { authAPI } from "../../services/authService";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
+  const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [formData, setFormData] = useState({
@@ -45,7 +47,7 @@ const Login = () => {
     if (!validateForm()) return;
     setIsLoading(true);
     try {
-      const response = await authAPI.login({
+      const response = await login({
         email: formData.email.trim(),
         password: formData.password,
       });
