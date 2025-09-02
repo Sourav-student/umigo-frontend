@@ -1,9 +1,14 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useState, useEffect } from 'react';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuth();
   const location = useLocation();
+  const [token, setToken] = useState('');
+  useEffect(() => {
+     const getToken = JSON.parse(localStorage.getItem(''))
+  }, [])
 
   // Show loading spinner while checking authentication
   if (isLoading) {
